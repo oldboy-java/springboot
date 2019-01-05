@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://123.57.18.177:38141/girl
+    username: root
+    password: hVuJw4Dwf3PRlIuZW# 
+    
+  jpa:
+    hibernate:
+      ddl-auto: update ##每次都重新建立表，可以再第一时使该参数，后续用使用update
+    show-sql: true
+      
+ 
+    
+    
+    
+  
+  
+  
