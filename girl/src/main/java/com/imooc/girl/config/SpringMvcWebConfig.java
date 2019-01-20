@@ -1,6 +1,8 @@
 package com.imooc.girl.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -30,12 +32,20 @@ public class SpringMvcWebConfig extends WebMvcConfigurationSupport {
 	        super.addResourceHandlers(registry);
 	    }
 	 
+	 
 	 /**
 	  * 配置拦截器
 	  */
 	 @Override
 	    protected void addInterceptors(InterceptorRegistry registry) {
-	        registry.addInterceptor(new UserInterceptor()).addPathPatterns("/**");
+	        registry.addInterceptor(userInterceptor()).addPathPatterns("/**");
 	        super.addInterceptors(registry);
 	    }
+	 
+	 
+	 @Bean
+	 public UserInterceptor userInterceptor() {
+		 return new UserInterceptor();
+	 }
+	 
 }

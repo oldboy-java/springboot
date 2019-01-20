@@ -12,14 +12,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSONObject;
 import com.imooc.girl.service.GirlService;
 import com.imooc.girl.utils.JsonUtils;
 import com.imooc.girl.utils.SpringContextUtils;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public class AuthFilter implements Filter {
+	
+	@Autowired
+	private GirlService girlService ;
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -41,7 +47,6 @@ public class AuthFilter implements Filter {
 		//这里主要测试拦截html，如果访问html，直接报错500
 		if(url.endsWith(".html") && !url.contains("login.html")) {
 			//在Filter中获取Bean对象
-			GirlService girlService = SpringContextUtils.getBean(GirlService.class);
 			GirlService girlService2 = SpringContextUtils.getBean(GirlService.class);
 			
 			System.err.println("url="+url+"?"+query+"&t="+ (girlService == girlService2 ? true :false));
