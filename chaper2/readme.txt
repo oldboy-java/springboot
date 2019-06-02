@@ -20,9 +20,12 @@
 
 
 4、本程序默认激活dev开发配置，访问时地址
-http://localhost:9090/dev/properties/1
+http://localhost:9090/dev/properties/
 
+5、springboot默认配置文件名是application.yml或者application.properties,默认配置文件路径
+    classpath根目录下、classpath根目录/config 查找application.yml(application.properties)、application-{profile}.properties（(application-{profile}.yml)）
 
+    可以自定义配置文件，通过@PropertySource指定配置文件路径
 
-
-
+6、配置文件优先级
+   application-{profile}  > application   > @PropertySource引入的配置
