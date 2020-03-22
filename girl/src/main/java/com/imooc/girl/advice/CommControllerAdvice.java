@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.InitBinder;
  */
 @ControllerAdvice(basePackages= {"com.imooc.girl.controller"}) //标识控制器通知，并且指定拦截的控制器包
 public class CommControllerAdvice {
-
-	
 	
 	//定义HTTP对应参数处理规则
 	@InitBinder  //也可以放在特定的控制器中，针对特定控制器起作用，这里对所有控制器起作用
@@ -23,6 +21,5 @@ public class CommControllerAdvice {
 		binder.registerCustomEditor(Date.class, 
 				new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), false));
 	}
-	
-	
-     }
+ }
+
