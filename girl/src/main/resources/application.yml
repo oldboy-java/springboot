@@ -6,11 +6,12 @@ spring:
     url: jdbc:mysql://localhost:3306/dbgirl
     username: root
     password: 123456
-    
-  #jpa:
-    #hibernate:
-     # ddl-auto: update ##每次都重新建立表，可以再第一时使该参数，后续用使用update
-    #show-sql: true
+
+   ##每次都重新建立表，可以再第一时使该参数，后续用使用update
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
       
  
     

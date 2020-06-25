@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data
 @ToString
 @NoArgsConstructor
 public class Girl {
@@ -43,5 +42,44 @@ public class Girl {
 	@NumberFormat(pattern="##,###.00")    //支持将金额格式参数转换成BigDecimal类型
 	@NotNull
 	private BigDecimal money;//存款
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getCupSize() {
+		return cupSize;
+	}
+
+	public void setCupSize(String cupSize) {
+		this.cupSize = cupSize;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
 }

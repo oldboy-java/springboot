@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.imooc.girl.dao.GirlRespository;
@@ -12,12 +14,16 @@ import com.imooc.girl.enums.ResultEnum;
 import com.imooc.girl.exception.GirlException;
 import com.imooc.girl.pojo.Girl;
 import com.imooc.girl.service.GirlService;
+import org.springframework.util.StringUtils;
 
 @Service
 public class GirlServiceImpl implements GirlService {
 
 	@Autowired
 	private GirlRespository girlRespository;
+
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	@Override
 	public List<Girl> girlList() {
@@ -43,7 +49,16 @@ public class GirlServiceImpl implements GirlService {
 
 	@Override
 	public Girl findGirl(Integer id) {
-		return girlRespository.findOne(id);
+		String girl = redisTemplate.opsForValue().get(String.valueOf(id.intValue()));
+		Girl g = null;
+		// 这里仅仅是验证默认redis自动配置功能，所有直接使用StringRedisTemplate
+		if (StringUtils.isEmpty(girl)) {
+			 g =  girlRespository.findOne(id);
+			redisTemplate.opsForValue().set(String.valueOf(id.intValue()), JSON.toJSONString(g));
+		}else {
+			g = JSON.parseObject(girl, Girl.class);
+		}
+		return g;
 	}
 
 	@Override

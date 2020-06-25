@@ -1,9 +1,12 @@
 package com.imooc.girl.controller;
 
 import javax.validation.Valid;
+
+import com.imooc.girl.propertites.GirlProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +42,6 @@ public class GirlController {
 
 	/**
 	 * 添加女生
-	 * 
-	 * @param age
-	 * @param cupSize
 	 * @return
 	 */
 	// @Valid:对girl对象进行验证，如果有错误，则结果保存再BindingResult
