@@ -8,12 +8,15 @@ spring:
     url: jdbc:mysql://localhost:3306/dbgirl
     username: root
     password: 123456
-  thymeleaf:
+  redis:
+    host:  localhost
+    port:  6379
 
 
 shiro:
   loginUrl: /login.html
   userNativeSessionManager: true
+  unauthorizedUrl: /error.html
 
 
 

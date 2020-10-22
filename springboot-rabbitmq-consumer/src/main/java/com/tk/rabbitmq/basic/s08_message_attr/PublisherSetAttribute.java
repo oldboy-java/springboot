@@ -13,10 +13,10 @@ public class PublisherSetAttribute {
 		// 1、创建连接工厂
 		ConnectionFactory factory = new ConnectionFactory();
 		// 2、设置连接属性
-		factory.setHost("localhost");
+		factory.setHost("rabbitmq.study.com");
 		factory.setPort(5672);
 		factory.setUsername("admin");
-		factory.setPassword("admin");
+		factory.setPassword("123456");
 
 		try (
 				// 3、从连接工厂获取连接 //可以给连接命个名
@@ -30,6 +30,11 @@ public class PublisherSetAttribute {
 			String message = "非持久化消息";
 			// 6、发送消息
 			channel.basicPublish("", "queue8", new AMQP.BasicProperties.Builder().deliveryMode(1).build(),
+					message.getBytes());
+			System.out.println("发送消息：" + message);
+			
+			message = "持久化消息";
+			channel.basicPublish("", "queue8", new AMQP.BasicProperties.Builder().deliveryMode(2).build(),
 					message.getBytes());
 			System.out.println("发送消息：" + message);
 

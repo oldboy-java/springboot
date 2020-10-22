@@ -60,7 +60,5 @@ public class BuyerProductController {
 		}
 		
 		return null;
-		
-		Stack<E>
 	}
 }

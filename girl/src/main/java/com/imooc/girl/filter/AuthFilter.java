@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.imooc.girl.pojo.Girl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
@@ -30,7 +31,8 @@ public class AuthFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
-
+		Girl g = girlService.findGirl(1);
+		log.info("girl={}",g);
 	}
 
 	@Override

@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+/**
+ * 消息发往到交换机中，没有绑定队列，只要交换机上成功接收，也会
+ * @author Administrator
+ *
+ */
 @SpringBootApplication
 @EnableScheduling // spring 中的定时功能，此处只是为了多次发送消息
 public class CorrelationDataConfirm {

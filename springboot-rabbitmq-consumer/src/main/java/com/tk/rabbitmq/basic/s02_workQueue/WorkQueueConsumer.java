@@ -1,5 +1,7 @@
 package com.tk.rabbitmq.basic.s02_workQueue;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.rabbitmq.client.Channel;
@@ -8,7 +10,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
 /**
- * 简单队列消费者
+ * 简单队列消费者 消费者优先级设置
  */
 public class WorkQueueConsumer {
 
@@ -38,7 +40,7 @@ public class WorkQueueConsumer {
 		channel.queueDeclare(queueName, false, false, false, null);
 
 		// 在消费者处理一个消息比较耗时时，减少预发来防止消息得不到及时处理
-//		channel.basicQos(1); // accept only one unack-ed message at a time
+		channel.basicQos(10); // accept only one unack-ed message at a time
 
 		// 6、定义收到消息后的回调
 		DeliverCallback callback = (consumerTag, message) -> {
@@ -54,8 +56,11 @@ public class WorkQueueConsumer {
 			System.out.println("#######消费者1消费完消息=" +  new String(message.getBody(), "UTF-8"));
 		};
 
+		Map<String, Object> parmas = new HashMap<String, Object>(); 
+		parmas.put("x-priority", 10); // 整数，数值越大优先级越高。 默认 0
+		
 		// 7、开启队列消费
-		channel.basicConsume(queueName, false, callback, consumerTag -> {
+		channel.basicConsume(queueName, false,  parmas, callback, consumerTag -> {
 		});
 
 

@@ -7,6 +7,8 @@ import com.rabbitmq.client.ConnectionFactory;
 /**
  * 简单队列生产者 使用RabbitMQ的默认交换器发送消息<br>
  * producer --> Queue --> 多个Consumer
+ * 
+ *
  */
 public class WorkerQueueProducer {
 

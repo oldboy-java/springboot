@@ -56,4 +56,12 @@
 三、异常
 	Spring只针对RuntimeException进行回滚，因此自定义异常时必须是RuntimeException
 	
+	
+四、增加自动配置
+ META-INF/spring.factories中配置
+ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ com.imooc.girl.config.Bean1AutoConfiguration,\   #定义自动配置类1
+ com.imooc.girl.config.Bean2AutoConfiguration     #定义自动配置类2，需要注意最后一个配置不需要后面的
+                                                   # \
+	
 

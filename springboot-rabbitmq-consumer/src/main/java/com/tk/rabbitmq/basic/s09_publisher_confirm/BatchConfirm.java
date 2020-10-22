@@ -12,8 +12,10 @@ public class BatchConfirm {
 		// 1、创建连接工厂
 		ConnectionFactory factory = new ConnectionFactory();
 		// 2、设置连接属性
-		factory.setHost("localhost");
+		factory.setHost("rabbitmq.study.com");
 		factory.setPort(5672);
+		factory.setUsername("admin");
+		factory.setPassword("123456");
 
 		try (
 				// 3、从连接工厂获取连接 //可以给连接命个名
@@ -36,7 +38,9 @@ public class BatchConfirm {
 				channel.basicPublish("mandatory-ex", "", false, null, message.getBytes());
 				System.out.println("发布消息：" + message);
 			}
-
+			
+			
+			
 			// 3 等待该批消息的确认结果
 			boolean batchConfirmResult = channel.waitForConfirms();
 			// 等待一定时间获取确认结果

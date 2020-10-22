@@ -2,15 +2,18 @@ package com.liul.shiro.realm;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthenticatingRealm;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 /**
  * 这里仅仅只做认证的话，直接继承 AuthenticatingRealm
  */
 @Slf4j
-public class MyLoginRealm2 extends AuthenticatingRealm {
+public class MyLoginRealm2 extends AuthorizingRealm {
 
     // authenticationToken 这里的token就是执行login中传递过来的token
     @Override
@@ -55,7 +58,7 @@ public class MyLoginRealm2 extends AuthenticatingRealm {
         // 使用盐值加密 :设置salt
 
         // 这里模拟认证失败的情况：设置credentials=888888888， principal=Realm2
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo("Realm2", "8883883838", salt, realmName);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, salt, realmName);
         return info;
     }
 
@@ -63,5 +66,10 @@ public class MyLoginRealm2 extends AuthenticatingRealm {
     private Object getCiphertext(String algorithmName, Object source, Object salt, int hashIterations){
         Object result =  new SimpleHash(algorithmName, source, salt,hashIterations);
         return result;
+    }
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        return null;
     }
 }
