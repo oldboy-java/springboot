@@ -17,11 +17,7 @@
   ~ under the License.
   -->
 <!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Getting Started: Serving Web Content</title>
-        <!--/*/ <th:block th:include="fragments/head :: head"/> /*/-->
-    </head>
+<html xmlns:th="http://www.thymeleaf.org">
     <body>
         <div class="container">
 
@@ -30,6 +26,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Login</h3>
+                            <h4 th:text="${error}"></h4>
                         </div>
                         <div class="panel-body">
                             <form name="loginform" action="/login" method="POST" accept-charset="UTF-8" role="form">

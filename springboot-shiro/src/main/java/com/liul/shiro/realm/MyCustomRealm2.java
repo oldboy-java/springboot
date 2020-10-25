@@ -1,5 +1,6 @@
 package com.liul.shiro.realm;
 
+import com.liul.shiro.utils.SerializableByteSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -11,14 +12,14 @@ import org.apache.shiro.util.ByteSource;
 
 /**
  * 这里仅仅只做认证的话，直接继承 AuthenticatingRealm
+ *  仅仅是模拟角色、权限
  */
 @Slf4j
-public class MyLoginRealm2 extends AuthorizingRealm {
+public class MyCustomRealm2 extends AuthorizingRealm {
 
     // authenticationToken 这里的token就是执行login中传递过来的token
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        log.info("--->MyLoginRealm2");
 
         // 1. 把AuthenticationToken 转成UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken)authenticationToken;
@@ -47,7 +48,8 @@ public class MyLoginRealm2 extends AuthorizingRealm {
         Object principal = username;
 
         // 2) credentials ：密码，这个密码是从数据库中查询出来的用户密码
-        ByteSource salt = ByteSource.Util.bytes(username);
+//        ByteSource salt = ByteSource.Util.bytes(username);
+        SerializableByteSource salt = new SerializableByteSource(username);
         Object credentials =  getCiphertext("SHA1","123456", salt, 10);
 
         // 3) realName: 当前realm对象的name.调用父类的getName()即可

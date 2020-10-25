@@ -87,6 +87,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
             selectDb(redisConnection);
             return redisConnection.hKeys(cacheNameBytes);
         }, true);
+
         if (CollectionUtils.isEmpty(ks)) {
             return Collections.emptySet();
         }
