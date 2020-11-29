@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping("/detail")
-    @RequiresPermissions("user:detail")
+    @RequiresPermissions("user:detail")  //已登录且满足指定权限
     public String detail(){
         return "user_detail";
     }
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    @RequiresRoles("admin")
+    @RequiresRoles("admin")   //已登录且满足指定角色
     @ResponseBody
     public String delete(){
         return "delete success";

@@ -32,7 +32,7 @@ mybatis:
 
 shiro:
   loginUrl: /login.html
-  userNativeSessionManager: true
+ # userNativeSessionManager: true
   #unauthorizedUrl: /error.html
 
 logging:

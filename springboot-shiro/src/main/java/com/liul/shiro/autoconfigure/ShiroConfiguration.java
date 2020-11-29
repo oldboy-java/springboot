@@ -181,20 +181,25 @@ public class ShiroConfiguration {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/login.html", "anon");
+        chainDefinition.addPathDefinition("/login.html*", "anon");
         chainDefinition.addPathDefinition("/login", "anon");
         chainDefinition.addPathDefinition("/logout", "logout");   // 使用logout过滤器
         chainDefinition.addPathDefinition("/users/list", "roles[user]"); //需要user角色
 
 //        chainDefinition.addPathDefinition("/users/add", "perms[user:list,user:add]"); //需要user:list和user:add权限
         // 使用自定义权限过滤器， 只需要满足user:list和user:add权限中任意一个即可
-        chainDefinition.addPathDefinition("/users/add", "permsOr[user:list,user:add]");
+        // 增加authc认证主要是防止使用Remember Me 登录后，也可以访问。这里限制只能登录认证才能访问。remember me也不行
+        chainDefinition.addPathDefinition("/users/add", "authc, permsOr[user:list,user:add]");
 
 
 //        chainDefinition.addPathDefinition("/users/deleteBatch", "roles[admin,admin1]"); //需要admin和admin1两种角色
         // 使用自定义角色过滤器，只需要admin或admin1其中之一即可
         chainDefinition.addPathDefinition("/users/deleteBatch", "rolesOr[admin,admin1]");
-        chainDefinition.addPathDefinition("/**", "authc"); //需要登录认证
+
+        // user 过滤器表示已登录或使用Remember me登录都可以访问资源，匹配到规则后，不会执行后面的/**都需要登录认证的规则
+        chainDefinition.addPathDefinition("/session", "user");
+
+//        chainDefinition.addPathDefinition("/**", "authc"); //需要登录认证
         return chainDefinition;
     }
 
