@@ -1,18 +1,7 @@
 package com.tk.rabbitmq.boot.s14_delay_message;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.AnonymousQueue;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -55,16 +44,24 @@ public class Producer {
 	public void send() {
 		String message = "Hello World!-" + System.currentTimeMillis() / 1000;
 
-		template.convertAndSend(fanout.getName(), "", message, new MessagePostProcessor() {
+
+		// 消息后置处理器
+		MessagePostProcessor processor = new MessagePostProcessor() {
 
 			@Override
 			public Message postProcessMessage(Message message) throws AmqpException {
+				// 设置消息持久化
+				message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+				// 设置消息延时时间：延时5秒
 				message.getMessageProperties().setDelay(5000);
+
+			//	message.getMessageProperties().setHeader("x-delay", 5000);
 				return message;
 			}
 
-		});
+		};
 
+		template.convertAndSend(fanout.getName(), "", message, processor);
 		System.out.println(" [x] Sent '" + message + "'");
 	}
 

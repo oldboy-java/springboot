@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -20,6 +21,7 @@ import java.nio.charset.Charset;
 @ConditionalOnClass(RestTemplate.class)
 @EnableConfigurationProperties(RestTemplateProperties.class)
 @AutoConfigureAfter(ClientHttpRequestFactoryConfiguration.class)
+@Import(ClientHttpRequestFactoryConfiguration.class)
 public class RestAutoConfiguration {
 
 	/**

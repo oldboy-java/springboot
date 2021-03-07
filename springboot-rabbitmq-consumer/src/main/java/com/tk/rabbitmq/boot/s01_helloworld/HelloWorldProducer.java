@@ -1,6 +1,5 @@
 package com.tk.rabbitmq.boot.s01_helloworld;
 
-import org.json.JSONObject;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
