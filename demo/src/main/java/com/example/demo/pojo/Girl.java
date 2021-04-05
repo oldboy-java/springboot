@@ -1,10 +1,16 @@
 package com.example.demo.pojo;
 
-import javax.persistence.*;
 
+import com.example.demo.enums.CupSize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Girl {
-    @Id
-    private String id;
+
+
+    private Long id;
 
     /**
      * 年龄
@@ -14,56 +20,11 @@ public class Girl {
     /**
      * 胸罩杯大小
      */
-    @Column(name = "cup_size")
-    private String cupSize;
+    private CupSize cupSize;
 
-    /**
-     * @return id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 获取年龄
-     *
-     * @return age - 年龄
-     */
-    public Integer getAge() {
-        return age;
-    }
-
-    /**
-     * 设置年龄
-     *
-     * @param age 年龄
-     */
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    /**
-     * 获取胸罩杯大小
-     *
-     * @return cup_size - 胸罩杯大小
-     */
-    public String getCupSize() {
-        return cupSize;
-    }
-
-    /**
-     * 设置胸罩杯大小
-     *
-     * @param cupSize 胸罩杯大小
-     */
-    public void setCupSize(String cupSize) {
+    public Girl(Integer age , CupSize cupSize) {
+        this.age  = age;
         this.cupSize = cupSize;
     }
+
 }
