@@ -1,16 +1,14 @@
 package com.tk.rabbitmq.boot.s11_consumer_ack;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.rabbitmq.client.Channel;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import com.rabbitmq.client.Channel;
-
 @Component
 public class ManualAckConsumer {
 
-	@RabbitListener(queues = "hello")
+//	@RabbitListener(queues = "ack")
 	public void receive(String in, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag)
 			throws Exception {
 		System.err.println("Thread.info=" + Thread.currentThread().getName());

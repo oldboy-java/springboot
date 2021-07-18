@@ -1,0 +1,32 @@
+spring:
+  rabbitmq:
+    host:  123.57.18.177
+    port: 5672
+    username:  admin
+    password:  123456
+    virtual-host:  /
+    connection-timeout:  15000
+
+   ##rabbimq消费端配置,当主动配置了RabbitListenerContainerFactory后此配置失效
+    listener:
+      type: simple
+      simple:
+        prefetch:  1
+        acknowledge-mode:  manual
+        auto-startup:  true
+        max-concurrency: 1
+        concurrency:  10
+  publisher-confirms: true
+  publisher-returns:  true   #通过yml配置方式，不生效，使用properties配置
+
+
+logging:
+  level:
+    org:
+      springframework:
+        amqp:
+          rabbit: warn
+
+
+
+

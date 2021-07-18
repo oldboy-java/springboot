@@ -1,10 +1,8 @@
 package com.imooc.girl.pojo;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class Db {
 
 	private String user;

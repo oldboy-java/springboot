@@ -2,7 +2,6 @@ package com.tk.rabbitmq.boot.s01_helloworld;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,14 +36,6 @@ public class HelloWorldProducer {
 		return new Queue("hello");
 	}
 	
-	/**
-	 * 自定义json消息转换器,   默认是简单消息转换器,对象必须实现Serializable接口，否则会失败。采用json消息转换器，对象可以不实现Serializable接口
-	 * @return
-	 */
-	@Bean
-	public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-		return new Jackson2JsonMessageConverter();
-	}
 
 	// @Autowired  
 	// private AmqpAdmin amqpAdmin;   //做queue、exchange、binding的管理用的
@@ -57,11 +48,10 @@ public class HelloWorldProducer {
 
 	@Scheduled(fixedDelay = 1000)   //定时多次发送消息
 	public void send() {
-//		String message = "Hello World!";
-		User user = new User("Mr Liu", 35);
+     	String message = "Hello World!";
 		// 使用默认交换机，点击发送消息，路由key等于队列名称
-		this.template.convertAndSend(queue.getName(), user);
-		System.out.println(" [x] Sent '" + user + "'");
+		this.template.convertAndSend(queue.getName(), message);
+		System.out.println(" [x] Sent '" + message + "'");
 	}
 
 	public static void main(String[] args) throws Exception {

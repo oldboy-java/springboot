@@ -43,10 +43,18 @@ public class RoutingReturn {
 
 	private ReturnCallback myReturnCallback() {
 		return new ReturnCallback() {
+
+
+			/***
+			 *  只要消息没有投递到队列中，就会触发这个失败回调
+			 * @param message 投递失败的详细信息
+			 * @param replyCode  回复的状态码
+			 * @param replyText   回复的文本内容
+			 * @param exchange   当时这个消息发送的交换机
+			 * @param routingKey 当时这个消息使用的路由键
+			 */
 			@Override
-			// replyCode broker的回应码 replyText 回应描述
-			public void returnedMessage(Message message, int replyCode, String replyText, String exchange,
-					String routingKey) {
+			public void returnedMessage(Message message, int replyCode, String replyText, String exchange,String routingKey) {
 
 				// 在这里写退回处理逻辑
 				System.out.println("收到回退消息 replyCode=" + replyCode + " replyText=" + replyText + " exchange=" + exchange

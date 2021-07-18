@@ -1,8 +1,5 @@
 package com.tk.rabbitmq.boot.s05_topic;
 
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
 @EnableScheduling
@@ -30,10 +30,10 @@ public class Producer {
 	@Scheduled(fixedDelay = 3000)
 	public void send() {
 
-//		String routingKey = speeds[random.nextInt(100) % speeds.length] + "."
-//				+ colours[random.nextInt(100) % colours.length] + "." + species[random.nextInt(100) % species.length];
+	String routingKey = speeds[random.nextInt(100) % speeds.length] + "."
+				+ colours[random.nextInt(100) % colours.length] + "." + species[random.nextInt(100) % species.length];
 
-		String routingKey = "orange";
+
 		int i = count.incrementAndGet();
 
 		String message = "topic message-" + i + " routingKey=" + routingKey;

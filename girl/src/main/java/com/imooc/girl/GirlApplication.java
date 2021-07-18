@@ -1,11 +1,7 @@
 package com.imooc.girl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.imooc.girl.config.Bean1AutoConfiguration;
-import com.imooc.girl.utils.SpringContextUtils;
 
 @SpringBootApplication
 public class GirlApplication {

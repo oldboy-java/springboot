@@ -1,20 +1,20 @@
 package com.imooc.girl.service.impl;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
-
 import com.imooc.girl.dao.GirlRespository;
 import com.imooc.girl.enums.ResultEnum;
 import com.imooc.girl.exception.GirlException;
 import com.imooc.girl.pojo.Girl;
 import com.imooc.girl.service.GirlService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 public class GirlServiceImpl implements GirlService {
@@ -26,6 +26,7 @@ public class GirlServiceImpl implements GirlService {
 	private StringRedisTemplate redisTemplate;
 
 	@Override
+	@Cacheable(value = "girl", key = "#root.method.name", sync = true) //指定多个线程同时执行时使用本地同步锁，一定程度上解决缓存击穿问题
 	public List<Girl> girlList() {
 		return girlRespository.findAll();
 	}
@@ -53,7 +54,7 @@ public class GirlServiceImpl implements GirlService {
 		Girl g = null;
 		// 这里仅仅是验证默认redis自动配置功能，所有直接使用StringRedisTemplate
 		if (StringUtils.isEmpty(girl)) {
-			 g =  girlRespository.findOne(id);
+			 g =  girlRespository.getOne(id);
 			redisTemplate.opsForValue().set(String.valueOf(id.intValue()), JSON.toJSONString(g));
 		}else {
 			g = JSON.parseObject(girl, Girl.class);
@@ -62,8 +63,9 @@ public class GirlServiceImpl implements GirlService {
 	}
 
 	@Override
+	@CacheEvict(value = "girl")
 	public void deleteGirl(Integer id) {
-		girlRespository.delete(id);		
+		girlRespository.deleteById(id);
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class GirlServiceImpl implements GirlService {
 
 	@Override
 	public Integer getGirlAge(Integer id) throws Exception {
-		Girl girl = girlRespository.findOne(id);
+		Girl girl = girlRespository.getOne(id);
 		Integer age  = girl.getAge();
 		if(age < 10 ) {
 			throw new GirlException(ResultEnum.PRIMARY_SCHOOL.getCode(),ResultEnum.PRIMARY_SCHOOL.getMessage());

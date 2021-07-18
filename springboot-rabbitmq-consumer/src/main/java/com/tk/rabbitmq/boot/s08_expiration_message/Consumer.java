@@ -15,11 +15,24 @@ import java.util.Map;
 
 @Component
 @Slf4j
+@RabbitListener(queues = "spring-queue8")
 public class Consumer {
 
-	@RabbitListener(queues = "spring-queue8")
+
 	@RabbitHandler
 	public void receivePersonMsg(@Payload Person person, Channel channel, @Headers Map<String ,Object> headers) {//指定头
+		log.info("----------"+ JSON.toJSON(person));
+		if( person.getId() < 3) {
+			try {
+				channel.basicAck((long)headers.get(AmqpHeaders.DELIVERY_TAG), false);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@RabbitHandler
+	public void receivePerson1Msg(@Payload Person1 person, Channel channel, @Headers Map<String ,Object> headers) {//指定头
 		log.info("----------"+ JSON.toJSON(person));
 		if( person.getId() < 3) {
 			try {

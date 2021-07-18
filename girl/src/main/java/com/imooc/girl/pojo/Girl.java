@@ -1,27 +1,22 @@
 package com.imooc.girl.pojo;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @ToString
 @NoArgsConstructor
-public class Girl {
+public class Girl  implements Serializable {
 
 	@Id
 	@GeneratedValue

@@ -1,25 +1,17 @@
 package com.imooc.girl.controller;
 
-import javax.validation.Valid;
-
-import com.imooc.girl.propertites.GirlProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.imooc.girl.common.Result;
 import com.imooc.girl.common.ResultUtils;
 import com.imooc.girl.pojo.Girl;
 import com.imooc.girl.service.GirlService;
+import com.imooc.girl.service.impl.GirlService2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -29,6 +21,15 @@ public class GirlController {
 
 	@Autowired
 	private GirlService girlService;
+
+	//由于AOP动态代理设置为JDK动态代理后，JDK动态代理是基于接口生成的对象，只能赋值于接口类型的变量
+	// 赋值给实现类会出现错误：The bean 'girlServiceImpl' could not be injected as a 'com.imooc.girl.service.impl.GirlServiceImpl' because it is a JDK dynamic proxy that implements:
+//	@Autowired
+//	private GirlServiceImpl girlService3;
+
+
+	@Autowired
+	private GirlService2 girlService2;
 
 	/**
 	 * 查询女生列表
@@ -41,13 +42,24 @@ public class GirlController {
 	}
 
 	/**
+	 * 查询女生列表
+	 *
+	 * @return
+	 */
+	@GetMapping(value = "girls2")
+	public Result<Object> girlList2() {
+		return ResultUtils.success(girlService2.girlList());
+	}
+
+
+	/**
 	 * 添加女生
 	 * @return
 	 */
 	// @Valid:对girl对象进行验证，如果有错误，则结果保存再BindingResult
 	@PostMapping(value = "girls")
+	@GetMapping(value = "girls")
 	public Result<Object> addGirl(@Valid Girl girl, BindingResult bindingResult) throws Exception {
-		System.err.println(girl.toString());
 		if (bindingResult.hasErrors()) {
 			logger.info(bindingResult.getFieldError().getDefaultMessage());
 			return ResultUtils.error(1, bindingResult.getFieldError().getDefaultMessage());

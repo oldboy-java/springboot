@@ -1,7 +1,5 @@
 package com.tk.rabbitmq.basic.s01_helloworld;
 
-import java.util.stream.IntStream;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -51,6 +49,12 @@ public class Producer {
 		String message = "Hello World!";
 		
 		// 6、发送消息
+		/**  exchange:交换机名称
+		 *    routingKey：路由key
+		 *     props:  配置信息
+		 *     body：发送消息内容
+		 *   public void basicPublish(String exchange, String routingKey, BasicProperties props, byte[] body)
+		 */
 		channel.basicPublish("", "queue1", null, message.getBytes());
 		System.out.println("发送消息：" + message);
 

@@ -90,6 +90,11 @@ public class ExpirationMessageTest {
 			person.setId(122233);
 			person.setName("刘董事长");
 			this.template.convertAndSend(queue.getName(), person);
+
+		Person1 person1 =  new Person1();
+		person1.setId(222233);
+		person1.setName("刘董事长2");
+		this.template.convertAndSend(queue.getName(), person1);
 	}
 
 	/**
@@ -98,7 +103,7 @@ public class ExpirationMessageTest {
 	@Test
 	public  void  testSendMapMsg() {
 		Map<String,Object> data = new HashMap<>();
-		data.put("id",1);
+		data.put("id",1556);
 		data.put("name","张大大");
 		this.template.convertAndSend(queue.getName(),data);
 	}

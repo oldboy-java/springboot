@@ -10,12 +10,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
-@EnableScheduling // spring 中的定时功能，此处只是为了多次发送消息
+@EnableScheduling
 public class Producer {
 
 	@Bean
-	public Queue hello() {
-		return new Queue("hello");
+	public Queue ack() {
+		return new Queue("ack");
 	}
 
 	@Autowired
@@ -26,7 +26,7 @@ public class Producer {
 
 	int count = 0;
 
-	@Scheduled(fixedDelay = 1000) // 定时多次发送消息
+	@Scheduled(fixedDelay = 1000)
 	public void send() {
 		String message = "Hello World!-" + ++count;
 		this.template.convertAndSend(queue.getName(), message);
