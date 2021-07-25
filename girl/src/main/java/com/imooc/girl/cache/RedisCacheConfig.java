@@ -11,7 +11,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-@EnableCaching
+@EnableCaching(proxyTargetClass = false)
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfig {
     @Bean
