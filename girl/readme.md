@@ -62,6 +62,14 @@
  org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
  com.imooc.girl.config.Bean1AutoConfiguration,\   #定义自动配置类1
  com.imooc.girl.config.Bean2AutoConfiguration     #定义自动配置类2，需要注意最后一个配置不需要后面的
-                                                   # \
+ 
+ 
+ 五、集成Sentinel进行流量控制
+                                                   
+       <dependency>
+                      	<groupId>com.alibaba.cloud</groupId>
+                        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                         <version>2.2.4.RELEASE</version>
+      </dependency>                                         	
 	
 

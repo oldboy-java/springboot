@@ -1,12 +1,11 @@
 package com.imooc.girl.config;
 
-import javax.servlet.Filter;
-
+import com.imooc.girl.filter.AuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.imooc.girl.filter.AuthFilter;
+import javax.servlet.Filter;
 
 @Configuration
 public class FilterConfig {
@@ -29,4 +28,6 @@ public class FilterConfig {
 	public Filter authFilter() {
 		return new AuthFilter();
 	}
+
+
 }

@@ -20,20 +20,38 @@ spring:
       cache-null-values: true
 
   aop:
-    proxy-target-class:  false
+    proxy-target-class:  true    #Springboot2.0默认使用CGLIB动态代理
+
+#  task:
+#    scheduling:
+#      pool:
+#        size: 5
 
    ##每次都重新建立表，可以再第一时使该参数，后续用使用update
   jpa:
     hibernate:
       ddl-auto: update
       show-sql: true
+  main:
+    allow-bean-definition-overriding: true
+  task:
+    execution:
+      pool:
+        core-size: 8
+        max-size: 8
 
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8088
+        port: 8197
+        heartbeatIntervalMs: 500
+      filter:
+        enabled: true
+      eager: true
 
-
-
-
-
-
-  
-  
-  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
