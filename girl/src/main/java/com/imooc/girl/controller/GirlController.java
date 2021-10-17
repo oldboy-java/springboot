@@ -5,6 +5,9 @@ import com.imooc.girl.common.ResultUtils;
 import com.imooc.girl.pojo.Girl;
 import com.imooc.girl.service.GirlService;
 import com.imooc.girl.service.impl.GirlService2;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import javax.validation.Valid;
 
 
 @RestController
+@Api("用户接口")
 public class GirlController {
 
 	private static final Logger logger = LoggerFactory.getLogger(GirlController.class);
@@ -59,7 +63,8 @@ public class GirlController {
 	// @Valid:对girl对象进行验证，如果有错误，则结果保存再BindingResult
 	@PostMapping(value = "girls")
 	@GetMapping(value = "girls")
-	public Result<Object> addGirl(@Valid Girl girl, BindingResult bindingResult) throws Exception {
+	@ApiOperation(value = "新增用户")
+	public Result<Object> addGirl(@ApiParam(name = "girl", value = "用户信息", required = true)@Valid Girl girl, BindingResult bindingResult) throws Exception {
 		if (bindingResult.hasErrors()) {
 			logger.info(bindingResult.getFieldError().getDefaultMessage());
 			return ResultUtils.error(1, bindingResult.getFieldError().getDefaultMessage());
@@ -92,7 +97,8 @@ public class GirlController {
 	 * @return
 	 */
 	@GetMapping(value = "girls/{id}")
-	public Result<Object> findGirl(@PathVariable("id") Integer id) {
+	@ApiOperation(value = "根据用户ID查询用户")
+	public Result<Object> findGirl(@ApiParam(name = "id", value = "用户ID", required = true) @PathVariable("id") Integer id) {
 		return ResultUtils.success(girlService.findGirl(id));
 	}
 

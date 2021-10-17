@@ -1,26 +1,17 @@
 package com.imooc.girl.filter;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
 import com.imooc.girl.pojo.Girl;
+import com.imooc.girl.service.GirlService;
+import com.imooc.girl.utils.SpringContextUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSONObject;
-import com.imooc.girl.service.GirlService;
-import com.imooc.girl.utils.JsonUtils;
-import com.imooc.girl.utils.SpringContextUtils;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @Slf4j
 public class AuthFilter implements Filter {
@@ -47,7 +38,7 @@ public class AuthFilter implements Filter {
 		String query = req.getQueryString();
 		
 		//这里主要测试拦截html，如果访问html，直接报错500
-		if(url.endsWith(".html") && !url.contains("login.html")) {
+		if(url.endsWith(".html") && !url.contains("login.html") && !url.contains("swagger-ui.html")) {
 			//在Filter中获取Bean对象
 			GirlService girlService2 = SpringContextUtils.getBean(GirlService.class);
 			
