@@ -14,6 +14,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +31,13 @@ public class ShortUrlServiceImpl  extends ServiceImpl<ShortUrlMapper, ShortUrlEn
     public String generateShortUrl(String sourceUrl, Long validAccessTime) {
         // 需要考虑同一个地址返回生成短地址情况，返回生成进行更新处理
         Date currentDate = new Date();
-        Date expireTime = validAccessTime == -1 ?
-                new Date("9999-12-31") : new Date(currentDate.getTime() + validAccessTime);
+        Date expireTime = null;
+        try {
+            expireTime = validAccessTime == -1 ?
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("9999-12-31 12:59:59") : new Date(currentDate.getTime() + validAccessTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String shortCode = ShortUrlGenerator.shortUrl(sourceUrl,"")[0];
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(sourceUrl).build();
         ShortUrlEntity shortUrl = ShortUrlEntity.builder().baseUrl(uriComponents.getScheme() + "://" + uriComponents.getHost())
@@ -42,9 +49,13 @@ public class ShortUrlServiceImpl  extends ServiceImpl<ShortUrlMapper, ShortUrlEn
         this.insert(shortUrl);
 
       // 记录缓存
-      stringRedisTemplate.opsForValue().set(SHORT_URL_KEY+":" +shortCode, JSON.toJSONString(shortUrl),
-              validAccessTime, TimeUnit.MILLISECONDS);
-
+        if (validAccessTime == -1) {
+            // 不过期
+            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY+":" +shortCode, JSON.toJSONString(shortUrl));
+        }else {
+            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY+":" +shortCode, JSON.toJSONString(shortUrl),
+                    validAccessTime, TimeUnit.MILLISECONDS);
+        }
       return shortCode;
     }
 
