@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class CustomProperties {
 
-	private String name;
-	
-	private String age;
-	
+    private String name;
+
+    private String age;
+
 }
