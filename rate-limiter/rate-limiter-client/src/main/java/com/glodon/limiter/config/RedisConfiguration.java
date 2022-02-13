@@ -10,15 +10,16 @@ public class RedisConfiguration {
 
     /**
      * 定义加载Lua脚本对象DefaultRedisScript
+     *
      * @return
      */
     @Bean
-    public DefaultRedisScript   loadRedisScript(){
+    public DefaultRedisScript loadRedisScript() {
         DefaultRedisScript defaultRedisScript = new DefaultRedisScript();
         // 设置Lua脚本文件路径
         defaultRedisScript.setLocation(new ClassPathResource("ratelimiter.lua"));
         // 设置Lua脚本返回值类型
         defaultRedisScript.setResultType(Boolean.class);
-        return  defaultRedisScript;
+        return defaultRedisScript;
     }
 }

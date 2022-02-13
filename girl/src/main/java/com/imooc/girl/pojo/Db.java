@@ -5,15 +5,15 @@ import lombok.Data;
 @Data
 public class Db {
 
-	private String user;
-	
-	private String pwd;
+    private String user;
 
-	public Db(String user, String pwd) {
-		super();
-		this.user = user;
-		this.pwd = pwd;
-	}
-	
-	
+    private String pwd;
+
+    public Db(String user, String pwd) {
+        super();
+        this.user = user;
+        this.pwd = pwd;
+    }
+
+
 }

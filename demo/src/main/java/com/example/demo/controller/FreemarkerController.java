@@ -11,19 +11,19 @@ import com.example.demo.pojo.Resource;
 @Controller
 @RequestMapping("ftl")
 public class FreemarkerController {
-	
-	@Autowired
-	private Resource resource;
-	
-	
-	@GetMapping("index")
-	public String index(Model model) {
-		model.addAttribute("resource", resource);
-		return "freemarker/index";
-	}
 
-	@GetMapping("center")
-	public String center(Model model) {
-		return "freemarker/center/center";
-	}
+    @Autowired
+    private Resource resource;
+
+
+    @GetMapping("index")
+    public String index(Model model) {
+        model.addAttribute("resource", resource);
+        return "freemarker/index";
+    }
+
+    @GetMapping("center")
+    public String center(Model model) {
+        return "freemarker/center/center";
+    }
 }

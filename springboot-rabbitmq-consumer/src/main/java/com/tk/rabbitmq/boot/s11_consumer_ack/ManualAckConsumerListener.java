@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * 2、将监听器实现ChannelAwareMessageListener
  * 3、如果消息消费成功，调用Channel的basicAck()方法签收消息
  * 4、入股消息消费失败，调用Channel的basicNack()方法拒绝签收，让Broker重新发送消息给消费者
- *
  */
 @Component
 @Slf4j
@@ -30,11 +29,11 @@ public class ManualAckConsumerListener implements ChannelAwareMessageListener {
             log.info("处理业务逻辑......");
 
             // 3、手动签收
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),  false);
-        }catch (Exception ex){
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (Exception ex) {
 
             // 出现异常
-            log.error("出现异常={}" ,ex);
+            log.error("出现异常={}", ex);
 
             // 拒绝签收
             // 参数1 ：消息传递标识

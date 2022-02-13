@@ -11,43 +11,43 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RoutingConfiguration {
 
-	@Bean
-	public DirectExchange direct() {
-		return new DirectExchange("spring.routing");
-	}
+    @Bean
+    public DirectExchange direct() {
+        return new DirectExchange("spring.routing");
+    }
 
-	@Configuration
-	public static class ReceiverConfig {
+    @Configuration
+    public static class ReceiverConfig {
 
-		@Bean
-		public Queue autoDeleteQueue1() {
-			return new AnonymousQueue();
-		}
+        @Bean
+        public Queue autoDeleteQueue1() {
+            return new AnonymousQueue();
+        }
 
-		@Bean
-		public Queue autoDeleteQueue2() {
-			return new AnonymousQueue();
-		}
+        @Bean
+        public Queue autoDeleteQueue2() {
+            return new AnonymousQueue();
+        }
 
-		@Bean
-		public Binding binding1a(DirectExchange direct, Queue autoDeleteQueue1) {
-			// 绑定队列与交换机，同时设置绑定key
-			return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("orange");
-		}
+        @Bean
+        public Binding binding1a(DirectExchange direct, Queue autoDeleteQueue1) {
+            // 绑定队列与交换机，同时设置绑定key
+            return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("orange");
+        }
 
-		@Bean
-		public Binding binding1b(DirectExchange direct, Queue autoDeleteQueue1) {
-			return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("black");
-		}
+        @Bean
+        public Binding binding1b(DirectExchange direct, Queue autoDeleteQueue1) {
+            return BindingBuilder.bind(autoDeleteQueue1).to(direct).with("black");
+        }
 
-		@Bean
-		public Binding binding2a(DirectExchange direct, Queue autoDeleteQueue2) {
-			return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("green");
-		}
+        @Bean
+        public Binding binding2a(DirectExchange direct, Queue autoDeleteQueue2) {
+            return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("green");
+        }
 
-		@Bean
-		public Binding binding2b(DirectExchange direct, Queue autoDeleteQueue2) {
-			return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("black");
-		}
-	}
+        @Bean
+        public Binding binding2b(DirectExchange direct, Queue autoDeleteQueue2) {
+            return BindingBuilder.bind(autoDeleteQueue2).to(direct).with("black");
+        }
+    }
 }

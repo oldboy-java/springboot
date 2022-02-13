@@ -19,24 +19,24 @@ import java.net.URL;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloworldApplicationTests {
 
-	@LocalServerPort
-	private int port;
+    @LocalServerPort
+    private int port;
 
-	private URL base;
+    private URL base;
 
-	@Autowired
-	private TestRestTemplate restTemplate;
+    @Autowired
+    private TestRestTemplate restTemplate;
 
 
-	@Before
-	public void setup() throws MalformedURLException {
-		this.base = new URL("http://localhost:" + port+"/helloworld/hello");
-	}
+    @Before
+    public void setup() throws MalformedURLException {
+        this.base = new URL("http://localhost:" + port + "/helloworld/hello");
+    }
 
-	@Test
-	public void hello() {
-		ResponseEntity<String> responseEntity = restTemplate.getForEntity(base.toString(),String.class);
-		Assert.assertEquals(responseEntity.getBody(),"hello world!");
-	}
+    @Test
+    public void hello() {
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(base.toString(), String.class);
+        Assert.assertEquals(responseEntity.getBody(), "hello world!");
+    }
 
 }

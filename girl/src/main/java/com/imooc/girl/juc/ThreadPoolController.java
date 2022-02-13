@@ -16,14 +16,15 @@ public class ThreadPoolController {
 
 
     /**
-     *   验证时设置jvm参数  -Xmx128m -Xms128m
+     * 验证时设置jvm参数  -Xmx128m -Xms128m
+     *
      * @return
      */
     @RequestMapping("/fix")
-    public  String fixThreadPool(){
+    public String fixThreadPool() {
         // 模拟批量下载文件耗时操作
-        IntStream.rangeClosed(0,10000).forEach(r ->{
-            executor.execute(() ->{
+        IntStream.rangeClosed(0, 10000).forEach(r -> {
+            executor.execute(() -> {
                 try {
                     TimeUnit.SECONDS.sleep(300);
                 } catch (InterruptedException e) {

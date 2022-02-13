@@ -15,12 +15,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 public class GirlControllerTest {
 
-	@Autowired
-	private MockMvc mockMvc;
-	
-	@Test
-	public void girlListByAgeTest() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/girls/age/16"))
-		.andExpect(MockMvcResultMatchers.status().isOk());
-	}
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void girlListByAgeTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/girls/age/16"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

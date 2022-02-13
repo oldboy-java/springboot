@@ -12,40 +12,40 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 @Configuration
 public class SpringMvcWebConfig extends WebMvcConfigurationSupport {
-	
-	@Override
-	protected void addFormatters(FormatterRegistry registry) {
-		Converter converter = new StringToGirlConverter();
-		 //添加自定义转换器
+
+    @Override
+    protected void addFormatters(FormatterRegistry registry) {
+        Converter converter = new StringToGirlConverter();
+        //添加自定义转换器
         registry.addConverter(converter);
-	}
-	
-	
-	/***
-	 * 重新指定静态文件路径
-	 */
-	 @Override
-	    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-	        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
-					// 增加swagger-ui.html静态文件映射
-					.addResourceLocations("classpath:META-INF/resources/");
-	        super.addResourceHandlers(registry);
-	    }
-	 
-	 
-	 /**
-	  * 配置拦截器
-	  */
-	 @Override
-	    protected void addInterceptors(InterceptorRegistry registry) {
-	        registry.addInterceptor(userInterceptor()).addPathPatterns("/**");
-	        super.addInterceptors(registry);
-	    }
-	 
-	 
-	 @Bean
-	 public UserInterceptor userInterceptor() {
-		 return new UserInterceptor();
-	 }
-	 
+    }
+
+
+    /***
+     * 重新指定静态文件路径
+     */
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
+                // 增加swagger-ui.html静态文件映射
+                .addResourceLocations("classpath:META-INF/resources/");
+        super.addResourceHandlers(registry);
+    }
+
+
+    /**
+     * 配置拦截器
+     */
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(userInterceptor()).addPathPatterns("/**");
+        super.addInterceptors(registry);
+    }
+
+
+    @Bean
+    public UserInterceptor userInterceptor() {
+        return new UserInterceptor();
+    }
+
 }

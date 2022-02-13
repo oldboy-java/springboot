@@ -6,14 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExclusiveConsumer {
 
-	@RabbitListener(queues = "hello", exclusive = true) // 【注意】独占时不能开并发  concurrency
-	public void receive(String in) {
-		System.out.println(" [c1] Received '" + in + "'");
-	}
+    @RabbitListener(queues = "hello", exclusive = true) // 【注意】独占时不能开并发  concurrency
+    public void receive(String in) {
+        System.out.println(" [c1] Received '" + in + "'");
+    }
 
-	@RabbitListener(queues = "hello", exclusive = true)
-	public void receive2(String in) {
-		System.out.println(" [c2] Received '" + in + "'");
-	}
+    @RabbitListener(queues = "hello", exclusive = true)
+    public void receive2(String in) {
+        System.out.println(" [c2] Received '" + in + "'");
+    }
 
 }

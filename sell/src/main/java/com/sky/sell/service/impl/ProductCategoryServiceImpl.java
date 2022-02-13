@@ -14,28 +14,28 @@ import com.sky.sell.service.ProductCategoryService;
 @Service
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
-	@Autowired
-	private ProductCategoryDAO productCategoryDAO;
-	
-	@Override
-	@Transactional
-	public ProductCategory save(ProductCategory productCategory) {
-		return productCategoryDAO.save(productCategory);
-	}
+    @Autowired
+    private ProductCategoryDAO productCategoryDAO;
 
-	@Override
-	public ProductCategory findOne(Integer categoryId) {
-		return productCategoryDAO.findOne(categoryId);
-	}
+    @Override
+    @Transactional
+    public ProductCategory save(ProductCategory productCategory) {
+        return productCategoryDAO.save(productCategory);
+    }
 
-	@Override
-	public List<ProductCategory> findAll() {
-		return productCategoryDAO.findAll();
-	}
+    @Override
+    public ProductCategory findOne(Integer categoryId) {
+        return productCategoryDAO.findOne(categoryId);
+    }
 
-	@Override
-	public List<ProductCategory> findByCategoryType(List<Integer> categoryTypeList) {
-		return productCategoryDAO.findByCategoryTypeIn(categoryTypeList);
-	}
+    @Override
+    public List<ProductCategory> findAll() {
+        return productCategoryDAO.findAll();
+    }
+
+    @Override
+    public List<ProductCategory> findByCategoryType(List<Integer> categoryTypeList) {
+        return productCategoryDAO.findByCategoryTypeIn(categoryTypeList);
+    }
 
 }

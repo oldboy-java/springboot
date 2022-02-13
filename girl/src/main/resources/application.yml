@@ -20,14 +20,14 @@ spring:
       cache-null-values: true
 
   aop:
-    proxy-target-class:  true    #Springboot2.0默认使用CGLIB动态代理
+    proxy-target-class: true    #Springboot2.0默认使用CGLIB动态代理
 
-#  task:
-#    scheduling:
-#      pool:
-#        size: 5
+    #  task:
+    #    scheduling:
+    #      pool:
+    #        size: 5
 
-   ##每次都重新建立表，可以再第一时使该参数，后续用使用update
+    ##每次都重新建立表，可以再第一时使该参数，后续用使用update
   jpa:
     hibernate:
       ddl-auto: update

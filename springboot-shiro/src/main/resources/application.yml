@@ -13,14 +13,14 @@ spring:
 
   #spring.datasource.druid.initial-size=1
   #spring.datasource.druid.min-idle=1
- # spring.datasource.druid.max-active=20
+  # spring.datasource.druid.max-active=20
   #spring.datasource.druid.test-on-borrow=true
- # spring.datasource.druid.stat-view-servlet.allow=true
+  # spring.datasource.druid.stat-view-servlet.allow=true
 
 
   redis:
-    host:  localhost
-    port:  6379
+    host: localhost
+    port: 6379
 
 
 mybatis:
@@ -32,7 +32,7 @@ mybatis:
 
 shiro:
   loginUrl: /login.html
- # userNativeSessionManager: true
+  # userNativeSessionManager: true
   #unauthorizedUrl: /error.html
 
 logging:

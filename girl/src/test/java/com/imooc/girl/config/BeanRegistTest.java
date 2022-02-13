@@ -18,24 +18,24 @@ import com.imooc.girl.bean.Red;
 //@SpringBootTest
 public class BeanRegistTest {
 
-	//@Autowired
-	//private ApplicationContext ctx;
-	
-	private AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(BeanConfiguration.class);
-	
-	@Test
-	public void testImport() {
-		printBeans(ctx);
-		
-		//Red red = ctx.getBean(Red.class);
-		
-	}
+    //@Autowired
+    //private ApplicationContext ctx;
 
-	
-	private void printBeans(ApplicationContext ctx) {
-		String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
-		for (String name : beanDefinitionNames) {
-			System.out.println(name);
-		}
-	}
+    private AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(BeanConfiguration.class);
+
+    @Test
+    public void testImport() {
+        printBeans(ctx);
+
+        //Red red = ctx.getBean(Red.class);
+
+    }
+
+
+    private void printBeans(ApplicationContext ctx) {
+        String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
+        for (String name : beanDefinitionNames) {
+            System.out.println(name);
+        }
+    }
 }

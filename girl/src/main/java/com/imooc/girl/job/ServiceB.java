@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class ServiceB {
 
     @Async
-    public  CompletableFuture<String>  b(int c){
+    public CompletableFuture<String> b(int c) {
         try {
             TimeUnit.SECONDS.sleep(30);
         } catch (InterruptedException e) {
@@ -20,7 +20,7 @@ public class ServiceB {
             return "b";
         });
 
-        int i = 1 /0;
+        int i = 1 / 0;
 
         return future;
     }

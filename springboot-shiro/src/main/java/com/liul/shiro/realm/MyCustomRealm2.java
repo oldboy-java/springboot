@@ -12,7 +12,7 @@ import org.apache.shiro.util.ByteSource;
 
 /**
  * 这里仅仅只做认证的话，直接继承 AuthenticatingRealm
- *  仅仅是模拟角色、权限
+ * 仅仅是模拟角色、权限
  */
 @Slf4j
 public class MyCustomRealm2 extends AuthorizingRealm {
@@ -22,7 +22,7 @@ public class MyCustomRealm2 extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         // 1. 把AuthenticationToken 转成UsernamePasswordToken
-        UsernamePasswordToken upToken = (UsernamePasswordToken)authenticationToken;
+        UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
 
         // 2. 从UsernamePasswordToken中获取用户名
         String username = upToken.getUsername();
@@ -50,7 +50,7 @@ public class MyCustomRealm2 extends AuthorizingRealm {
         // 2) credentials ：密码，这个密码是从数据库中查询出来的用户密码
 //        ByteSource salt = ByteSource.Util.bytes(username);
         SerializableByteSource salt = new SerializableByteSource(username);
-        Object credentials =  getCiphertext("SHA1","123456", salt, 10);
+        Object credentials = getCiphertext("SHA1", "123456", salt, 10);
 
         // 3) realName: 当前realm对象的name.调用父类的getName()即可
         String realmName = getName();
@@ -65,8 +65,8 @@ public class MyCustomRealm2 extends AuthorizingRealm {
     }
 
 
-    private Object getCiphertext(String algorithmName, Object source, Object salt, int hashIterations){
-        Object result =  new SimpleHash(algorithmName, source, salt,hashIterations);
+    private Object getCiphertext(String algorithmName, Object source, Object salt, int hashIterations) {
+        Object result = new SimpleHash(algorithmName, source, salt, hashIterations);
         return result;
     }
 

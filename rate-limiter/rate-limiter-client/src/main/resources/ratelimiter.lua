@@ -5,19 +5,19 @@
 ---
 
 -- 定义限流的方法签名
-local methodKey=KEYS[1]
+local methodKey = KEYS[1]
 
 -- 调用脚本传入的限流大小
 local limit = tonumber(ARGV[1])
 
-redis.log(redis.LOG_NOTICE,'the max request limit is '.. limit)
+redis.log(redis.LOG_NOTICE, 'the max request limit is ' .. limit)
 
 --调用脚本传入的限流时间单位
 local timeunit = ARGV[2]
 
 -- 调用前的流量大小,第一次为空，则给0
-local count = tonumber(redis.call('get', methodKey)  or  "0");
-redis.log(redis.LOG_NOTICE,'the request count is '.. count)
+local count = tonumber(redis.call('get', methodKey) or "0");
+redis.log(redis.LOG_NOTICE, 'the request count is ' .. count)
 
 -- 是否超出限流阀值
 if count + 1 > limit then
@@ -29,12 +29,12 @@ else
     redis.call('INCRBY', methodKey, 1)
 
     -- 设置过期时间
-    if (timeunit=="SECONDS") then
+    if (timeunit == "SECONDS") then
         -- 过期时间设置为1秒
-        redis.call('EXPIRE', methodKey,1);
-    elseif(timeunit=="MINUTES") then
+        redis.call('EXPIRE', methodKey, 1);
+    elseif (timeunit == "MINUTES") then
         -- 过期时间设置为1分钟
-        redis.call('EXPIRE', methodKey,1*60);
+        redis.call('EXPIRE', methodKey, 1 * 60);
     end
     return true;
 end

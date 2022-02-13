@@ -15,15 +15,15 @@ import java.util.Map;
 public class HelloWorldConsumer {
 
 
-	@RabbitListener(queues = "hello")
-	@RabbitHandler
-	public void receive(@Payload String message, @Headers Map<String, Object> headers, Channel channel) throws Exception{
-		System.out.println(headers.get(AmqpHeaders.CONSUMER_TAG) + " [x] Received '" + message+ "'");
-		
+    @RabbitListener(queues = "hello")
+    @RabbitHandler
+    public void receive(@Payload String message, @Headers Map<String, Object> headers, Channel channel) throws Exception {
+        System.out.println(headers.get(AmqpHeaders.CONSUMER_TAG) + " [x] Received '" + message + "'");
+
 //		TimeUnit.MINUTES.sleep(1);
-		
-		channel.basicAck((long)headers.get(AmqpHeaders.DELIVERY_TAG), false);
-		
-		
-	}
+
+        channel.basicAck((long) headers.get(AmqpHeaders.DELIVERY_TAG), false);
+
+
+    }
 }

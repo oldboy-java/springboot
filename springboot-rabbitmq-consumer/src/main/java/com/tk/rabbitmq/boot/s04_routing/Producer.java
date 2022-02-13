@@ -13,26 +13,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 @SpringBootApplication
 @EnableScheduling
 public class Producer {
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private DirectExchange direct;
+    @Autowired
+    private DirectExchange direct;
 
-	AtomicInteger count = new AtomicInteger(0);
+    AtomicInteger count = new AtomicInteger(0);
 
-	String[] routingKeys = { "orange", "black", "green" };
+    String[] routingKeys = {"orange", "black", "green"};
 
-	@Scheduled(fixedDelay = 1000)
-	public void send() {
-		int i = count.incrementAndGet();
-		String message = "routing message-" + i + " routingKey=" + routingKeys[i % 3];
-		template.convertAndSend(direct.getName(), routingKeys[i % 3], message);
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+    @Scheduled(fixedDelay = 1000)
+    public void send() {
+        int i = count.incrementAndGet();
+        String message = "routing message-" + i + " routingKey=" + routingKeys[i % 3];
+        template.convertAndSend(direct.getName(), routingKeys[i % 3], message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Producer.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Producer.class, args);
+        System.in.read();
+    }
 }

@@ -27,11 +27,11 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-       // 进行异常捕获
+        // 进行异常捕获
         return new AsyncUncaughtExceptionHandler() {
             @Override
             public void handleUncaughtException(Throwable throwable, Method method, Object... params) {
-                System.err.println(method.getName() +"方法执行失败，失败原因:"+throwable.toString());
+                System.err.println(method.getName() + "方法执行失败，失败原因:" + throwable.toString());
                 for (Object param : params) {
                     System.out.println("Parameter value - " + param);
                 }

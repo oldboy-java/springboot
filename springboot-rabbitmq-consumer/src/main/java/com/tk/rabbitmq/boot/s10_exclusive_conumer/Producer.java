@@ -13,26 +13,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableScheduling // spring 中的定时功能，此处只是为了多次发送消息
 public class Producer {
 
-	@Bean
-	public Queue hello() {
-		return new Queue("hello");
-	}
+    @Bean
+    public Queue hello() {
+        return new Queue("hello");
+    }
 
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private Queue queue;
+    @Autowired
+    private Queue queue;
 
-	@Scheduled(fixedDelay = 1000) // 定时多次发送消息
-	public void send() {
-		String message = "Hello World!";
-		this.template.convertAndSend(queue.getName(), message);
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+    @Scheduled(fixedDelay = 1000) // 定时多次发送消息
+    public void send() {
+        String message = "Hello World!";
+        this.template.convertAndSend(queue.getName(), message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Producer.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Producer.class, args);
+        System.in.read();
+    }
 }

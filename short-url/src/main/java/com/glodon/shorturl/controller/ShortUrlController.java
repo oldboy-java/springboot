@@ -13,9 +13,11 @@ public class ShortUrlController {
 
     @Autowired
     private ShortUrlService shortUrlService;
+
     /**
-     *  生成短地址
-     * @param url 长地址
+     * 生成短地址
+     *
+     * @param url             长地址
      * @param validAccessTime 短地址访问有效时长，毫秒数，-1长期有效
      * @return
      */
@@ -26,13 +28,14 @@ public class ShortUrlController {
 
 
     /**
-     *  根据短地址编码重定向原始地址   http://127.0.0.1:8080/Q7NZbu
+     * 根据短地址编码重定向原始地址   http://127.0.0.1:8080/Q7NZbu
+     *
      * @param shortCode 短地址编码
      * @return
      */
     @GetMapping("/{shortCode}")
     public void accessShortUrl(@PathVariable("shortCode") String shortCode, HttpServletResponse response) {
-        String sourceUrl =  shortUrlService.getSourceUrl(shortCode);
+        String sourceUrl = shortUrlService.getSourceUrl(shortCode);
         try {
             response.sendRedirect(sourceUrl);
         } catch (IOException e) {

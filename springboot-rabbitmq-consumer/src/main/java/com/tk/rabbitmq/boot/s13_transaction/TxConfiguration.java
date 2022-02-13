@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TxConfiguration {
-	@Bean
-	public RabbitTransactionManager rabbitTransactionManager(ConnectionFactory connectionFactory) {
-		return new RabbitTransactionManager(connectionFactory);
-	}
+    @Bean
+    public RabbitTransactionManager rabbitTransactionManager(ConnectionFactory connectionFactory) {
+        return new RabbitTransactionManager(connectionFactory);
+    }
 }

@@ -20,12 +20,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class ShortUrlServiceImpl  extends ServiceImpl<ShortUrlMapper, ShortUrlEntity> implements ShortUrlService {
+public class ShortUrlServiceImpl extends ServiceImpl<ShortUrlMapper, ShortUrlEntity> implements ShortUrlService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private static  final String SHORT_URL_KEY = "short:url";
+    private static final String SHORT_URL_KEY = "short:url";
 
     @Override
     public String generateShortUrl(String sourceUrl, Long validAccessTime) {
@@ -38,7 +38,7 @@ public class ShortUrlServiceImpl  extends ServiceImpl<ShortUrlMapper, ShortUrlEn
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String shortCode = ShortUrlGenerator.shortUrl(sourceUrl,"")[0];
+        String shortCode = ShortUrlGenerator.shortUrl(sourceUrl, "")[0];
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(sourceUrl).build();
         ShortUrlEntity shortUrl = ShortUrlEntity.builder().baseUrl(uriComponents.getScheme() + "://" + uriComponents.getHost())
                 .suffixUrl(uriComponents.getPath()).fullUrl(sourceUrl)
@@ -48,27 +48,27 @@ public class ShortUrlServiceImpl  extends ServiceImpl<ShortUrlMapper, ShortUrlEn
                 .build();
         this.insert(shortUrl);
 
-      // 记录缓存
+        // 记录缓存
         if (validAccessTime == -1) {
             // 不过期
-            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY+":" +shortCode, JSON.toJSONString(shortUrl));
-        }else {
-            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY+":" +shortCode, JSON.toJSONString(shortUrl),
+            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY + ":" + shortCode, JSON.toJSONString(shortUrl));
+        } else {
+            stringRedisTemplate.opsForValue().set(SHORT_URL_KEY + ":" + shortCode, JSON.toJSONString(shortUrl),
                     validAccessTime, TimeUnit.MILLISECONDS);
         }
-      return shortCode;
+        return shortCode;
     }
 
     @SneakyThrows
     @Override
     public String getSourceUrl(String shortCode) {
-        String sourceUrlInfo = stringRedisTemplate.opsForValue().get(SHORT_URL_KEY+":" + shortCode);
+        String sourceUrlInfo = stringRedisTemplate.opsForValue().get(SHORT_URL_KEY + ":" + shortCode);
 
         // 可增加异常处理
         if (StringUtils.isEmpty(sourceUrlInfo)) {
             // 抛出异常，可以自定义异常，后续可完善
-            throw new Exception("该地址不存在：http://127.0.0.1:8080/" +shortCode);
-        }else {
+            throw new Exception("该地址不存在：http://127.0.0.1:8080/" + shortCode);
+        } else {
             return JSON.parseObject(sourceUrlInfo, ShortUrlEntity.class).getFullUrl();
         }
 

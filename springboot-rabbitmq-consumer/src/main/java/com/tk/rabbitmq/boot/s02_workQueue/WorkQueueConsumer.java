@@ -23,38 +23,37 @@ import com.rabbitmq.client.Channel;
 @EnableScheduling
 public class WorkQueueConsumer {
 
-	/**
-	 * 
-	 * concurrency配置初始并发和最大并发数，rabbitmq会根据配置和消息消费情况，创建新的消费者直到到达最大并发数
-	 */
-	@RabbitListener(queues = "hello", concurrency = "2-5", containerFactory = "myFactory") // 并发2到5个消费者
-	public void receive(@Payload String message, @Headers Map<String, Object> headers, Channel channel) throws Exception {
-		System.out.println(headers.get(AmqpHeaders.CONSUMER_TAG) + "--Channel-" + channel.getChannelNumber() + " Received '" + message + "'");
-		TimeUnit.SECONDS.sleep(10);
-	}
+    /**
+     * concurrency配置初始并发和最大并发数，rabbitmq会根据配置和消息消费情况，创建新的消费者直到到达最大并发数
+     */
+    @RabbitListener(queues = "hello", concurrency = "2-5", containerFactory = "myFactory") // 并发2到5个消费者
+    public void receive(@Payload String message, @Headers Map<String, Object> headers, Channel channel) throws Exception {
+        System.out.println(headers.get(AmqpHeaders.CONSUMER_TAG) + "--Channel-" + channel.getChannelNumber() + " Received '" + message + "'");
+        TimeUnit.SECONDS.sleep(10);
+    }
 
-	@Bean
-	public Queue hello() {
-		return new Queue("hello");
-	}
+    @Bean
+    public Queue hello() {
+        return new Queue("hello");
+    }
 
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private Queue queue;
+    @Autowired
+    private Queue queue;
 
-	AtomicInteger count = new AtomicInteger();
+    AtomicInteger count = new AtomicInteger();
 
-	@Scheduled(fixedDelay = 1000) // 定时多次发送消息
-	public void send() {
-		String message = "Hello World!" + count.incrementAndGet();
-		this.template.convertAndSend(queue.getName(), message);
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+    @Scheduled(fixedDelay = 1000) // 定时多次发送消息
+    public void send() {
+        String message = "Hello World!" + count.incrementAndGet();
+        this.template.convertAndSend(queue.getName(), message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(WorkQueueConsumer.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(WorkQueueConsumer.class, args);
+        System.in.read();
+    }
 }

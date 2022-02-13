@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class AppExceptionHandler {
 
-	@ExceptionHandler(value= RateLimitException.class)
-	@ResponseBody
-	public Result handle(RateLimitException ex){
-		log.error("出现错误，错误码={},错误消息={}", ex.getCode(), ex.getMessage());
-		return ResultUtils.error(ex.getCode(), ex.getMessage());
-	}
+    @ExceptionHandler(value = RateLimitException.class)
+    @ResponseBody
+    public Result handle(RateLimitException ex) {
+        log.error("出现错误，错误码={},错误消息={}", ex.getCode(), ex.getMessage());
+        return ResultUtils.error(ex.getCode(), ex.getMessage());
+    }
 
 
 }

@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
         log.debug("AuthorizationException was thrown", e);
 
         ModelAndView mav = new ModelAndView();
-        mav.addObject("message",e.getMessage());
-        mav.addObject("url",req.getRequestURL());
+        mav.addObject("message", e.getMessage());
+        mav.addObject("url", req.getRequestURL());
         return "error";
     }
 

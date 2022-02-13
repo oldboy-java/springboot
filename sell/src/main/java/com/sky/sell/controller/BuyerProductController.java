@@ -20,45 +20,45 @@ import com.sky.sell.vo.ResultVO;
 
 /**
  * 买家商品
- * @author	刘力
- * @date	2017年12月2日下午7:28:09
+ *
  * @version 1.0
+ * @author 刘力
+ * @date 2017年12月2日下午7:28:09
  */
 @RestController
 @RequestMapping("/buyer/product")
 public class BuyerProductController {
 
-	@Autowired
-	private ProductInfoService productInfoService;
-	
-	@Autowired
-	private ProductCategoryDAO productCategoryDAO;
-	
-	
-	@GetMapping("/list")
-	public ResultVO<ProductVO> list(){
-		//查询所有在架商品
-		List<ProductInfo> productInfoList = productInfoService.findUpAll();
-		
-		List<Integer> categoryTypeList = new ArrayList<Integer>();
-		for(ProductInfo productInfo:productInfoList) {
-			categoryTypeList.add(productInfo.getCategoryType());
-		}
-		List<ProductVO> productVOList = new ArrayList<ProductVO>();
-		//查询所有分类
-		List<ProductCategory> productCategories = productCategoryDAO.findByCategoryTypeIn(categoryTypeList);
-		for(ProductCategory productCategory:productCategories) {
-			ProductVO productVO = new ProductVO();
-			productVO.setProductName(productCategory.getCategoryName());
-			productVO.setCategoryType(productCategory.getCategoryType());
-			
-			List<ProductInfoVO> productInfoVOList = new ArrayList<ProductInfoVO>();
-			
-			
-			
-			productVO.setProductInfoVOList(productInfoVOList);
-		}
-		
-		return null;
-	}
+    @Autowired
+    private ProductInfoService productInfoService;
+
+    @Autowired
+    private ProductCategoryDAO productCategoryDAO;
+
+
+    @GetMapping("/list")
+    public ResultVO<ProductVO> list() {
+        //查询所有在架商品
+        List<ProductInfo> productInfoList = productInfoService.findUpAll();
+
+        List<Integer> categoryTypeList = new ArrayList<Integer>();
+        for (ProductInfo productInfo : productInfoList) {
+            categoryTypeList.add(productInfo.getCategoryType());
+        }
+        List<ProductVO> productVOList = new ArrayList<ProductVO>();
+        //查询所有分类
+        List<ProductCategory> productCategories = productCategoryDAO.findByCategoryTypeIn(categoryTypeList);
+        for (ProductCategory productCategory : productCategories) {
+            ProductVO productVO = new ProductVO();
+            productVO.setProductName(productCategory.getCategoryName());
+            productVO.setCategoryType(productCategory.getCategoryType());
+
+            List<ProductInfoVO> productInfoVOList = new ArrayList<ProductInfoVO>();
+
+
+            productVO.setProductInfoVOList(productInfoVOList);
+        }
+
+        return null;
+    }
 }

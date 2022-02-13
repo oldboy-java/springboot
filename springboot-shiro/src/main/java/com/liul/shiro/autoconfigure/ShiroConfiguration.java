@@ -83,7 +83,7 @@ public class ShiroConfiguration {
 
 
     @Bean("md5CredentialsMatcher")
-    public CredentialsMatcher  md5CredentialsMatcher (){
+    public CredentialsMatcher md5CredentialsMatcher() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
         // 设置加密算法
         matcher.setHashAlgorithmName("MD5");
@@ -105,13 +105,14 @@ public class ShiroConfiguration {
 //    }
 
     /**
-     *  配置securityManager，可以不显示配置
+     * 配置securityManager，可以不显示配置
+     *
      * @param cacheManager
      * @param realms
      * @return
      */
     @Bean
-    public DefaultWebSecurityManager securityManager(Authenticator authenticator,  Collection<Realm> realms , RedisCacheManager cacheManager) {
+    public DefaultWebSecurityManager securityManager(Authenticator authenticator, Collection<Realm> realms, RedisCacheManager cacheManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 
         // 配置认证器，默认就是ModularRealmAuthenticator，且默认使用AtLeastOneSuccessfulStrategy策略
@@ -132,10 +133,11 @@ public class ShiroConfiguration {
 
     /**
      * 配置认证器
+     *
      * @return
      */
     @Bean
-    public Authenticator authenticator (){
+    public Authenticator authenticator() {
         ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
         authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
 
@@ -170,6 +172,7 @@ public class ShiroConfiguration {
 
     /**
      * 配置LifecycleBeanPostProcessor，可以自動來調用配置在Spirng IOC 容器中 shiro Bean的生命週期方法。不用顯示配置
+     *
      * @return
      */
     @Bean
@@ -204,17 +207,18 @@ public class ShiroConfiguration {
     }
 
     @Bean
-    public RoleOrFilter roleOrFilter (){
+    public RoleOrFilter roleOrFilter() {
         return new RoleOrFilter();
     }
 
     @Bean
-    public PermissionOrFilter permissionOrFilter(){
+    public PermissionOrFilter permissionOrFilter() {
         return new PermissionOrFilter();
     }
 
     /**
      * 注册shiroFilterRegistrationBean
+     *
      * @return
      */
     @Bean

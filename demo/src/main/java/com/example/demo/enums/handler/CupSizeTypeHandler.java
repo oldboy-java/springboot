@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CupSizeTypeHandler  implements TypeHandler <CupSize>{
+public class CupSizeTypeHandler implements TypeHandler<CupSize> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, CupSize cupSize, JdbcType jdbcType) throws SQLException {
@@ -22,7 +22,7 @@ public class CupSizeTypeHandler  implements TypeHandler <CupSize>{
     }
 
     @Override
-    public CupSize getResult(ResultSet rs, int columnIndex)throws SQLException {
+    public CupSize getResult(ResultSet rs, int columnIndex) throws SQLException {
         return CupSize.size(rs.getString(columnIndex));
     }
 

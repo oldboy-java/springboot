@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("one")
 public class OneController {
 
-	@RequestMapping("/index")
+    @RequestMapping("/index")
     public String index(ModelMap map) {
         map.addAttribute("name", "imooc22");
         return "thymeleaf/index";
     }
-	
-	@RequestMapping("center")
+
+    @RequestMapping("center")
     public String center() {
         return "thymeleaf/center/center";
     }

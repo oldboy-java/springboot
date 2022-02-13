@@ -15,27 +15,27 @@ import com.sky.sell.service.ProductInfoService;
 @Service
 public class ProductInfoServiceImpl implements ProductInfoService {
 
-	@Autowired
-	private ProductInfoDAO productInfoDAO;
-	
-	@Override
-	public ProductInfo save(ProductInfo productInfo) {
-		return productInfoDAO.save(productInfo);
-	}
+    @Autowired
+    private ProductInfoDAO productInfoDAO;
 
-	@Override
-	public ProductInfo findOne(String productId) {
-		return productInfoDAO.findOne(productId);
-	}
+    @Override
+    public ProductInfo save(ProductInfo productInfo) {
+        return productInfoDAO.save(productInfo);
+    }
 
-	@Override
-	public Page<ProductInfo> findAll(Pageable pageable) {
-		return productInfoDAO.findAll(pageable);
-	}
+    @Override
+    public ProductInfo findOne(String productId) {
+        return productInfoDAO.findOne(productId);
+    }
 
-	@Override
-	public List<ProductInfo> findUpAll() {
-		return productInfoDAO.findByProductStatus(ProductStatusEnum.UP.getCode());
-	}
+    @Override
+    public Page<ProductInfo> findAll(Pageable pageable) {
+        return productInfoDAO.findAll(pageable);
+    }
+
+    @Override
+    public List<ProductInfo> findUpAll() {
+        return productInfoDAO.findByProductStatus(ProductStatusEnum.UP.getCode());
+    }
 
 }

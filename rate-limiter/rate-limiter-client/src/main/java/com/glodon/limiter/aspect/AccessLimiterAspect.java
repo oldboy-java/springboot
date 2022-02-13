@@ -29,21 +29,21 @@ public class AccessLimiterAspect {
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    private RedisScript<Boolean>  redisScriptLua;
+    private RedisScript<Boolean> redisScriptLua;
 
     @Pointcut(value = "@annotation(com.glodon.limiter.annatation.AccessLimiter)")
-    public  void pointcut(){
+    public void pointcut() {
         log.info("pointcut....");
     }
 
     @Before("pointcut()")
-    public void  accessLimitBefore(JoinPoint joinPoint){
+    public void accessLimitBefore(JoinPoint joinPoint) {
         // 获取方法签名作为methodKey
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
 
         AccessLimiter annotation = method.getAnnotation(AccessLimiter.class);
-        if (annotation == null){
+        if (annotation == null) {
             return;
         }
 
@@ -55,7 +55,7 @@ public class AccessLimiterAspect {
         if (StringUtils.isBlank(methodKey)) {
             Class<?>[] parameterTypes = method.getParameterTypes();
             String paramTypeName = Arrays.stream(parameterTypes).map(Class::getName).collect(Collectors.joining(","));
-            methodKey = method.getName() +"#" + paramTypeName;
+            methodKey = method.getName() + "#" + paramTypeName;
         }
 
         //调用redis,由于使用的是StringRedisTemplate,序列化时必须保证序列化参数是字符串类型，必须保证args参数时字符串类型
@@ -63,12 +63,12 @@ public class AccessLimiterAspect {
                 Lists.newArrayList(methodKey),
                 String.valueOf(limit),   // 限流大小转换成字符串类型
                 timeUnit.name());       //限流单位转成字符串
-        if (Boolean.FALSE.equals(acquire)){
+        if (Boolean.FALSE.equals(acquire)) {
             log.error("The current request is limited the rate of  {}/ {}, Your  request access is blocked, methodKey={}",
                     limit, timeUnit.name(), methodKey);
             throw new RateLimitException(500,
                     "The current request is limited the rate of " + limit + "/" + timeUnit.name() +
-                            " , cause your  request access is blocked, methodKey is " + methodKey );
+                            " , cause your  request access is blocked, methodKey is " + methodKey);
         }
     }
 }

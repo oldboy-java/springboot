@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 public class RedissonConfiguration {
 
     @Bean
-    public RedissonClient redisson(RedissonProperties redissonProperties){
+    public RedissonClient redisson(RedissonProperties redissonProperties) {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://" +redissonProperties.getHost() +":" + redissonProperties.getPort());
+        config.useSingleServer().setAddress("redis://" + redissonProperties.getHost() + ":" + redissonProperties.getPort());
         RedissonClient redisson = Redisson.create(config);
         return redisson;
     }

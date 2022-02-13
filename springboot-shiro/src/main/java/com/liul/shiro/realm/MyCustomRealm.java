@@ -18,8 +18,8 @@ import java.util.Set;
 
 /**
  * 这里仅仅只做认证的话，直接继承 AuthenticatingRealm，如果也需要做授权则继承AuthorizingRealm
- *   从数据库中获取用户角色、权限相关信息
- *  AuthorizingRealm extends AuthenticatingRealm
+ * 从数据库中获取用户角色、权限相关信息
+ * AuthorizingRealm extends AuthenticatingRealm
  */
 @Slf4j
 public class MyCustomRealm extends AuthorizingRealm {
@@ -31,24 +31,24 @@ public class MyCustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         // 1. 把AuthenticationToken 转成UsernamePasswordToken
-        UsernamePasswordToken upToken = (UsernamePasswordToken)authenticationToken;
+        UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
 
         log.info(upToken.getCredentials().toString());
         // 2. 从UsernamePasswordToken中获取用户名
         String username = upToken.getUsername();
 
         // 3. 根据username从数据库中查找用户记录
-         User user =  getUser(username);
+        User user = getUser(username);
 
         // 4. 若用户不存在，则抛出UnknownAccountException 异常
-        if (user == null ) {
+        if (user == null) {
             throw new UnknownAccountException("用户不存在");
         }
 
         // 由shiro完成密码不对工作
 
         // 5. 根据用户信息情况，决定是否抛出AuthenticationException 异常 ,这里假设status=1时账号被锁定
-        if ( user.getStatus() == 1) {
+        if (user.getStatus() == 1) {
             throw new LockedAccountException("用户被锁定");
         }
 
@@ -78,29 +78,29 @@ public class MyCustomRealm extends AuthorizingRealm {
 
 
     /**
-     *  模拟从数据库中获取用户
+     * 模拟从数据库中获取用户
      */
-    private User getUser(String username){
+    private User getUser(String username) {
         User user = userMapper.findUserByUserName(username);
         log.info("从数据库中获取 username[" + username + "]对应的用户信息={}", user);
         return user;
     }
 
 
-
     /**
      * 进行授权处理
+     *
      * @param principalCollection
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-         //1. 从PrincipalCollection 获取登录用户信息
+        //1. 从PrincipalCollection 获取登录用户信息
         Object principal = principalCollection.getPrimaryPrincipal();
 
         // 2. 根据登录用户信息来获取当前用户的角色和权限
-        Set<String> roles = getRolesByUsername((String)principal);
-        Set<String> permissions = getPermissionsByUsername((String)principal);
+        Set<String> roles = getRolesByUsername((String) principal);
+        Set<String> permissions = getPermissionsByUsername((String) principal);
 
 
         // 3. 创建SimpleAuthorizationInfo，并设置roles和permissions
@@ -113,22 +113,23 @@ public class MyCustomRealm extends AuthorizingRealm {
 
 
     /**
-     *  模拟从数据库(缓存中)中获取角色
+     * 模拟从数据库(缓存中)中获取角色
+     *
      * @param username
      * @return
      */
-    private Set<String>  getRolesByUsername(String username){
+    private Set<String> getRolesByUsername(String username) {
         Set<String> roles = new HashSet<String>();
-       List<String> rList =  userMapper.getUserRoles(username);
-       if (!CollectionUtils.isEmpty(rList)) {
-           roles.addAll(rList);
-       }
+        List<String> rList = userMapper.getUserRoles(username);
+        if (!CollectionUtils.isEmpty(rList)) {
+            roles.addAll(rList);
+        }
         return roles;
     }
 
 
-    private Set<String> getPermissionsByUsername(String username){
-        Set<String> permissions =  userMapper.getPermissions(username);
+    private Set<String> getPermissionsByUsername(String username) {
+        Set<String> permissions = userMapper.getPermissions(username);
         return permissions;
     }
 }

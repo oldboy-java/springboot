@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
  * @TableName t_short_url
  */
 @Data
@@ -24,7 +23,7 @@ import java.util.Date;
 @TableName(value = "t_short_url")
 public class ShortUrlEntity implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long id;

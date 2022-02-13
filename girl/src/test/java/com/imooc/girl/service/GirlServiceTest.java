@@ -11,12 +11,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class GirlServiceTest {
 
-	@Autowired
-	private GirlService girlService;
-	
-	@Test
-	public void  getGirlAgeTest() throws Exception {
-		Assert.assertEquals(new Integer(89), girlService.getGirlAge(2));
-	}
-	
+    @Autowired
+    private GirlService girlService;
+
+    @Test
+    public void getGirlAgeTest() throws Exception {
+        Assert.assertEquals(new Integer(89), girlService.getGirlAge(2));
+    }
+
 }

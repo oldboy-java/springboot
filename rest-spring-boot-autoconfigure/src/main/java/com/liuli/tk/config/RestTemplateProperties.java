@@ -7,22 +7,22 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class RestTemplateProperties {
 
-	private TkClientHttpRequestFactory  clientHttpRequestFactory = new TkClientHttpRequestFactory();
-	
+    private TkClientHttpRequestFactory clientHttpRequestFactory = new TkClientHttpRequestFactory();
 
-	 /**
-     *  类型： loadBalanced、direct
+
+    /**
+     * 类型： loadBalanced、direct
      */
     private String type;
-    
-    
+
+
     /**
-     *  定义HttpRequestFactory配置
+     * 定义HttpRequestFactory配置
      */
-	@Data
-    public  static class TkClientHttpRequestFactory {
+    @Data
+    public static class TkClientHttpRequestFactory {
         /**
-         *  请求工厂类型
+         * 请求工厂类型
          */
         private String type;
     }

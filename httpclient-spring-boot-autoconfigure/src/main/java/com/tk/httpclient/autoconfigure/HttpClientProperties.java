@@ -14,7 +14,7 @@ public class HttpClientProperties {
     /**
      * 读超时时间
      */
-    private  Integer socketTimeout = 10000;
+    private Integer socketTimeout = 10000;
 
     /**
      * agent
@@ -24,7 +24,7 @@ public class HttpClientProperties {
     /**
      * 针对一个域名同时间正在使用的最多的连接数
      */
-    private  Integer maxConnPerRoute = 10;
+    private Integer maxConnPerRoute = 10;
 
     /**
      * 同时间正在使用的最多的连接数

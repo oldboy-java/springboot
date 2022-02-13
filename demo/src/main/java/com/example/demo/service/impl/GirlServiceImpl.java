@@ -11,24 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class GirlServiceImpl   implements  GirlService {
+public class GirlServiceImpl implements GirlService {
 
-	@Autowired
-	private GirlMapper girlMapper;
-	
-	@Autowired
-	private GirlMapperCustom girlMapperCustom;
-	
+    @Autowired
+    private GirlMapper girlMapper;
 
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class) 
-	public void saveGirl(Girl girl) {
-		girlMapper.add(girl);
-	}
+    @Autowired
+    private GirlMapperCustom girlMapperCustom;
 
-	@Override
-	public Girl findById(Long id) {
-		return girlMapper.find(id);
-	}
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void saveGirl(Girl girl) {
+        girlMapper.add(girl);
+    }
+
+    @Override
+    public Girl findById(Long id) {
+        return girlMapper.find(id);
+    }
 
 
 }

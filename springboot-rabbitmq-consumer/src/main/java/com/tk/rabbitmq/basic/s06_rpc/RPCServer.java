@@ -8,72 +8,72 @@ import com.rabbitmq.client.DeliverCallback;
 
 public class RPCServer {
 
-	private static final String RPC_QUEUE_NAME = "rpc_queue";
+    private static final String RPC_QUEUE_NAME = "rpc_queue";
 
-	private static int fib(int n) {
+    private static int fib(int n) {
 
-		if (n == 0)
-			return 0;
+        if (n == 0)
+            return 0;
 
-		if (n == 1)
-			return 1;
+        if (n == 1)
+            return 1;
 
-		return fib(n - 1) + fib(n - 2);
+        return fib(n - 1) + fib(n - 2);
 
-	}
+    }
 
-	public static void main(String[] argv) throws Exception {
+    public static void main(String[] argv) throws Exception {
 
-		ConnectionFactory factory = new ConnectionFactory();
+        ConnectionFactory factory = new ConnectionFactory();
 
-		factory.setHost("localhost");
+        factory.setHost("localhost");
 
-		try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
+        try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
 
-			channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
 
-			channel.queuePurge(RPC_QUEUE_NAME);
+            channel.queuePurge(RPC_QUEUE_NAME);
 
-			channel.basicQos(1);
+            channel.basicQos(1);
 
-			System.out.println(" [x] Awaiting RPC requests");
+            System.out.println(" [x] Awaiting RPC requests");
 
-			DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 
-				AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder()
-						.correlationId(delivery.getProperties().getCorrelationId()).build();
+                AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder()
+                        .correlationId(delivery.getProperties().getCorrelationId()).build();
 
-				String response = "";
+                String response = "";
 
-				try {
+                try {
 
-					String message = new String(delivery.getBody(), "UTF-8");
+                    String message = new String(delivery.getBody(), "UTF-8");
 
-					int n = Integer.parseInt(message);
+                    int n = Integer.parseInt(message);
 
-					System.out.println(" [.] fib(" + message + ")");
+                    System.out.println(" [.] fib(" + message + ")");
 
-					response += fib(n);
+                    response += fib(n);
 
-				} catch (RuntimeException e) {
+                } catch (RuntimeException e) {
 
-					System.out.println(" [.] " + e.toString());
+                    System.out.println(" [.] " + e.toString());
 
-				} finally {
+                } finally {
 
-					channel.basicPublish("", delivery.getProperties().getReplyTo(), replyProps,
-							response.getBytes("UTF-8"));
+                    channel.basicPublish("", delivery.getProperties().getReplyTo(), replyProps,
+                            response.getBytes("UTF-8"));
 
-					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
-				}
-			};
+                }
+            };
 
-			channel.basicConsume(RPC_QUEUE_NAME, false, deliverCallback, (consumerTag -> {
-			}));
+            channel.basicConsume(RPC_QUEUE_NAME, false, deliverCallback, (consumerTag -> {
+            }));
 
-			// 按任意键退出程序
-			System.in.read();
-		}
-	}
+            // 按任意键退出程序
+            System.in.read();
+        }
+    }
 }

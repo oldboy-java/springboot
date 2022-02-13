@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/girl")
 public class MyBatisCRUDController {
-	
-	@Autowired
-	private GirlService girlService;
 
-	@RequestMapping("/add")
-	public JSONResult saveGirl(@RequestBody Girl girl) throws Exception {
-		girlService.saveGirl(girl);
-		return JSONResult.ok("保存成功");
-	}
+    @Autowired
+    private GirlService girlService;
+
+    @RequestMapping("/add")
+    public JSONResult saveGirl(@RequestBody Girl girl) throws Exception {
+        girlService.saveGirl(girl);
+        return JSONResult.ok("保存成功");
+    }
 
 
-	@GetMapping("/{id}")
-	public Girl  findById(@PathVariable("id") Long id) {
-		return girlService.findById(id);
-	}
+    @GetMapping("/{id}")
+    public Girl findById(@PathVariable("id") Long id) {
+        return girlService.findById(id);
+    }
 
 }

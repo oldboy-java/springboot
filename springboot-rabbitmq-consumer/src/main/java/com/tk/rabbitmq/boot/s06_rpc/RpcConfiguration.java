@@ -10,24 +10,24 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RpcConfiguration {
 
-	@Bean
-	public DirectExchange topic() {
-		return new DirectExchange("spring.rpc");
-	}
+    @Bean
+    public DirectExchange topic() {
+        return new DirectExchange("spring.rpc");
+    }
 
-	@Configuration
-	public static class ServerConfig {
+    @Configuration
+    public static class ServerConfig {
 
-		@Bean
+        @Bean
 
-		public Queue queue() {
-			return new Queue("rpc.requests");
-		}
+        public Queue queue() {
+            return new Queue("rpc.requests");
+        }
 
-		@Bean
-		public Binding binding(DirectExchange exchange, Queue queue) {
-			return BindingBuilder.bind(queue).to(exchange).with("rpc");
-		}
+        @Bean
+        public Binding binding(DirectExchange exchange, Queue queue) {
+            return BindingBuilder.bind(queue).to(exchange).with("rpc");
+        }
 
-	}
+    }
 }

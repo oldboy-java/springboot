@@ -15,24 +15,24 @@ import org.slf4j.LoggerFactory;
 
 public class LogFilter implements Filter {
 
-	private static final Logger logger = LoggerFactory.getLogger(LogFilter.class);
-	
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+    private static final Logger logger = LoggerFactory.getLogger(LogFilter.class);
 
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		logger.info("Request-- coming:" + req.getRequestURL() );
-		chain.doFilter(request, response);
-	}
+    }
 
-	@Override
-	public void destroy() {
-		
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        logger.info("Request-- coming:" + req.getRequestURL());
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 
 }

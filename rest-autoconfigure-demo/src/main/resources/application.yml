@@ -1,8 +1,8 @@
 tk:
   rest-template:
-    type: direct  
-    client-http-request-factory:   
-        type: okhttp3   
+    type: direct
+    client-http-request-factory:
+      type: okhttp3
 
  
 

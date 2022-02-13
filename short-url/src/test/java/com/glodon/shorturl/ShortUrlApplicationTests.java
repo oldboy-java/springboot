@@ -12,7 +12,7 @@ class ShortUrlApplicationTests {
 
     @Test
     void generateUrl() {
-        System.err.println(Arrays.stream(ShortUrlGenerator.shortUrl("https://www.cnblogs.com/zhuyeshen/p/11424713.html","")).collect(Collectors.joining(",")));
+        System.err.println(Arrays.stream(ShortUrlGenerator.shortUrl("https://www.cnblogs.com/zhuyeshen/p/11424713.html", "")).collect(Collectors.joining(",")));
     }
 
 

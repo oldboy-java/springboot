@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("err")
 public class ErrorController {
 
-	@GetMapping("error")
-	public String error(Model model) {
-		int i = 10 /0;
-		return "thymeleaf/error";
-	}
-	
-	@RequestMapping("/ajaxerror")
-	public String ajaxerror(Model model) {
-		return "thymeleaf/ajaxerror";
-	}
-	
-	@RequestMapping("/getAjaxerror")
-	@ResponseBody
-	public JSONResult getAjaxerror(Model model) {
-		int i = 10 /0;
-		return JSONResult.ok();
+    @GetMapping("error")
+    public String error(Model model) {
+        int i = 10 / 0;
+        return "thymeleaf/error";
+    }
 
-	}
+    @RequestMapping("/ajaxerror")
+    public String ajaxerror(Model model) {
+        return "thymeleaf/ajaxerror";
+    }
+
+    @RequestMapping("/getAjaxerror")
+    @ResponseBody
+    public JSONResult getAjaxerror(Model model) {
+        int i = 10 / 0;
+        return JSONResult.ok();
+
+    }
 }

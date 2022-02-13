@@ -17,14 +17,13 @@ import java.util.Map;
 
 @SpringBootApplication
 @Slf4j
-@MapperScan(basePackages={"com.liul.shiro.mapper"}) // mapper扫描
+@MapperScan(basePackages = {"com.liul.shiro.mapper"}) // mapper扫描
 public class ShiroApplication {
 
-	
-	public static void main(String[] args) {
-		SpringApplication.run(ShiroApplication.class, args);
-	}
 
+    public static void main(String[] args) {
+        SpringApplication.run(ShiroApplication.class, args);
+    }
 
 
 }

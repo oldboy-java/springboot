@@ -16,21 +16,22 @@ import com.tk.rabbitmq.producer.OrderSender;
 @SpringBootTest
 public class ApplicationTests {
 
-	@Autowired
-	OrderSender orderSender;
-	@Test
-	public void contextLoads() {
-	}
+    @Autowired
+    OrderSender orderSender;
 
-	@Test
-	public void sendMsg() {
-		IntStream.range(0, 21).forEach(f ->{
-			Order order = new Order();
-			order.setId(f);
-			order.setName("测试订单"+f);
-			order.setMessageId(System.currentTimeMillis()+"$"+order.getId());
-			orderSender.send(order);
-		});
-		
-	}
+    @Test
+    public void contextLoads() {
+    }
+
+    @Test
+    public void sendMsg() {
+        IntStream.range(0, 21).forEach(f -> {
+            Order order = new Order();
+            order.setId(f);
+            order.setName("测试订单" + f);
+            order.setMessageId(System.currentTimeMillis() + "$" + order.getId());
+            orderSender.send(order);
+        });
+
+    }
 }

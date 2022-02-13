@@ -18,7 +18,7 @@ public class AsyncController {
     private ServiceA serviceA;
 
     @GetMapping("/")
-    public String async(){
+    public String async() {
         return serviceA.a();
     }
 

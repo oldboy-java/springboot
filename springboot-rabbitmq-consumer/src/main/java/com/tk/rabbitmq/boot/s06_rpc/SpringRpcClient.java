@@ -8,22 +8,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SpringRpcClient {
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private DirectExchange exchange;
+    @Autowired
+    private DirectExchange exchange;
 
-	int start = 0;
+    int start = 0;
 
-	@Scheduled(fixedDelay = 1000, initialDelay = 500)
-	public void send() {
+    @Scheduled(fixedDelay = 1000, initialDelay = 500)
+    public void send() {
 
-		System.out.println(" [x] Requesting fib(" + start + ")");
+        System.out.println(" [x] Requesting fib(" + start + ")");
 
-		Integer response = (Integer) template.convertSendAndReceive(exchange.getName(), "rpc", start++);
+        Integer response = (Integer) template.convertSendAndReceive(exchange.getName(), "rpc", start++);
 
-		System.out.println(" [.] Got '" + response + "'");
+        System.out.println(" [.] Got '" + response + "'");
 
-	}
+    }
 }

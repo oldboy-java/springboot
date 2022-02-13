@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.GirlMapperCustom">
-  <resultMap id="BaseResultMap" type="com.example.demo.pojo.Girl">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="cup_size" jdbcType="VARCHAR" property="cupSize" />
-  </resultMap>
-  
-  
- <!--  根据胸围罩杯大小查询 -->
-   <select id="selectByCupSize" parameterType="string"  resultMap="BaseResultMap">
-   		<if test="cupSize!=null and cupSize!=''">
-   			<bind name="pattern" value="'%' + cupSize + '%'" />  
-   		</if>
-    	
-    	SELECT * FROM girl 
-    	<where>
-    		<if test="pattern!=null and pattern!=''">
-    			and cup_size LIKE #{pattern}
-    		</if>
-    	</where>
-   </select>
+    <resultMap id="BaseResultMap" type="com.example.demo.pojo.Girl">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="cup_size" jdbcType="VARCHAR" property="cupSize"/>
+    </resultMap>
+
+
+    <!--  根据胸围罩杯大小查询 -->
+    <select id="selectByCupSize" parameterType="string" resultMap="BaseResultMap">
+        <if test="cupSize!=null and cupSize!=''">
+            <bind name="pattern" value="'%' + cupSize + '%'"/>
+        </if>
+
+        SELECT * FROM girl
+        <where>
+            <if test="pattern!=null and pattern!=''">
+                and cup_size LIKE #{pattern}
+            </if>
+        </where>
+    </select>
 </mapper>

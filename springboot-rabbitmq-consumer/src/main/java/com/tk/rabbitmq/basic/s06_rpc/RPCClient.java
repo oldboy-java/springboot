@@ -13,73 +13,74 @@ import com.rabbitmq.client.ConnectionFactory;
 
 public class RPCClient implements AutoCloseable {
 
-	private Connection connection;
+    private Connection connection;
 
-	private Channel channel;
+    private Channel channel;
 
-	private String requestQueueName = "rpc_queue";
+    private String requestQueueName = "rpc_queue";
 
-	public RPCClient() throws IOException, TimeoutException {
+    public RPCClient() throws IOException, TimeoutException {
 
-		ConnectionFactory factory = new ConnectionFactory();
+        ConnectionFactory factory = new ConnectionFactory();
 
-		factory.setHost("localhost");
+        factory.setHost("localhost");
 
-		connection = factory.newConnection();
+        connection = factory.newConnection();
 
-		channel = connection.createChannel();
+        channel = connection.createChannel();
 
-	}
+    }
 
-	public static void main(String[] argv) {
+    public static void main(String[] argv) {
 
-		try (RPCClient fibonacciRpc = new RPCClient()) {
+        try (RPCClient fibonacciRpc = new RPCClient()) {
 
-			for (int i = 0; i < 32; i++) {
+            for (int i = 0; i < 32; i++) {
 
-				String i_str = Integer.toString(i);
+                String i_str = Integer.toString(i);
 
-				System.out.println(" [x] Requesting fib(" + i_str + ")");
+                System.out.println(" [x] Requesting fib(" + i_str + ")");
 
-				String response = fibonacciRpc.call(i_str);
+                String response = fibonacciRpc.call(i_str);
 
-				System.out.println(" [.] Got '" + response + "'");
+                System.out.println(" [.] Got '" + response + "'");
 
-			}
+            }
 
-		} catch (IOException | TimeoutException | InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (IOException | TimeoutException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public String call(String message) throws IOException, InterruptedException {
+    public String call(String message) throws IOException, InterruptedException {
 
-		final String corrId = UUID.randomUUID().toString();
+        final String corrId = UUID.randomUUID().toString();
 
-		String replyQueueName = channel.queueDeclare().getQueue();
+        String replyQueueName = channel.queueDeclare().getQueue();
 
-		AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().correlationId(corrId).replyTo(replyQueueName)
-				.build();
+        AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().correlationId(corrId).replyTo(replyQueueName)
+                .build();
 
-		channel.basicPublish("", requestQueueName, props, message.getBytes("UTF-8"));
+        channel.basicPublish("", requestQueueName, props, message.getBytes("UTF-8"));
 
-		final BlockingQueue<String> response = new ArrayBlockingQueue<>(1);
+        final BlockingQueue<String> response = new ArrayBlockingQueue<>(1);
 
-		String ctag = channel.basicConsume(replyQueueName, true, (consumerTag, delivery) -> {
+        String ctag = channel.basicConsume(replyQueueName, true, (consumerTag, delivery) -> {
 
-			if (delivery.getProperties().getCorrelationId().equals(corrId)) {
-				response.offer(new String(delivery.getBody(), "UTF-8"));
-			}
+            if (delivery.getProperties().getCorrelationId().equals(corrId)) {
+                response.offer(new String(delivery.getBody(), "UTF-8"));
+            }
 
-		}, consumerTag -> {});
+        }, consumerTag -> {
+        });
 
-		String result = response.take();
-		channel.basicCancel(ctag);
-		return result;
-	}
+        String result = response.take();
+        channel.basicCancel(ctag);
+        return result;
+    }
 
-	public void close() throws IOException {
-		connection.close();
-	}
+    public void close() throws IOException {
+        connection.close();
+    }
 
 }

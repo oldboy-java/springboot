@@ -3,10 +3,12 @@ package com.tk.rabbitmq.common.entity;
 import java.io.Serializable;
 
 public class Order implements Serializable {
-    /** serialVersionUID*/
-	private static final long serialVersionUID = 1L;
-	
-	private int id;
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
+
+    private int id;
     private String name;
     private String messageId;
 

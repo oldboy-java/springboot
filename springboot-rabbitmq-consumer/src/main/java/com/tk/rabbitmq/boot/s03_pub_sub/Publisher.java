@@ -13,23 +13,23 @@ import org.springframework.scheduling.annotation.Scheduled;
 @SpringBootApplication
 @EnableScheduling
 public class Publisher {
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private FanoutExchange fanout;
+    @Autowired
+    private FanoutExchange fanout;
 
-	AtomicInteger count = new AtomicInteger(0);
+    AtomicInteger count = new AtomicInteger(0);
 
-	@Scheduled(fixedDelay = 1000)
-	public void send() {
-		String message = "pub/sub message-" + count.incrementAndGet();
-		template.convertAndSend(fanout.getName(), "", message);
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+    @Scheduled(fixedDelay = 1000)
+    public void send() {
+        String message = "pub/sub message-" + count.incrementAndGet();
+        template.convertAndSend(fanout.getName(), "", message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Publisher.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Publisher.class, args);
+        System.in.read();
+    }
 }

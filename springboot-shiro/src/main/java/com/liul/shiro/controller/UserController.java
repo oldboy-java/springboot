@@ -12,38 +12,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 
     @GetMapping("/list")
-    public String list(){
+    public String list() {
         return "user_list";
     }
 
     @GetMapping("/detail")
     @RequiresPermissions("user:detail")  //已登录且满足指定权限
-    public String detail(){
+    public String detail() {
         return "user_detail";
     }
 
 
     @GetMapping("/add")
-    public String add(){
+    public String add() {
         return "user_add";
     }
 
     @GetMapping("/delete")
     @RequiresRoles("admin")   //已登录且满足指定角色
     @ResponseBody
-    public String delete(){
+    public String delete() {
         return "delete success";
     }
 
 
     /**
      * 测试批量添加默认RequiresRoles需要两种角色才有权限.通过注解限制角色
+     *
      * @return
      */
     @GetMapping("/addBatch")
-    @RequiresRoles({"admin","admin1"})
+    @RequiresRoles({"admin", "admin1"})
     @ResponseBody
-    public String addBatch(){
+    public String addBatch() {
         return "addBatch success";
     }
 
@@ -51,11 +52,12 @@ public class UserController {
     /**
      * 测试批量添加默认RequiresRoles需要两种角色才有权限。通过在shiro配置中针对url进行角色配置。在
      * 配置中可以使用自定义的过滤器，实现多个角色只要满足其中一个即可。见ShiroConfiguration配置
+     *
      * @return
      */
     @GetMapping("/deleteBatch")
     @ResponseBody
-    public String deleteBatch(){
+    public String deleteBatch() {
         return "deleteBatch success";
     }
 }

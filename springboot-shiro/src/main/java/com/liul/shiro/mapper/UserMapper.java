@@ -22,7 +22,7 @@ public interface UserMapper {
             "\ttu.id = tur.user_id\n" +
             "where\n" +
             "\ttu.user_name = #{userName}")
-    @Results(@Result(column="role_name", property="roleName"))
+    @Results(@Result(column = "role_name", property = "roleName"))
     public List<String> getUserRoles(@Param("userName") String userName);
 
 
@@ -40,6 +40,6 @@ public interface UserMapper {
             "on tp.id  = trp .id \n" +
             "where\n" +
             "\ttu.user_name = #{userName}")
-    @Results(@Result(column="permission", property="permission"))
+    @Results(@Result(column = "permission", property = "permission"))
     public Set<String> getPermissions(@Param("userName") String userName);
 }

@@ -14,28 +14,28 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableScheduling
 public class PullConsum {
 
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	AtomicInteger count = new AtomicInteger(0);
+    AtomicInteger count = new AtomicInteger(0);
 
-	@Scheduled(fixedDelay = 1000)
-	public void send() {
-		String message = "message-" + count.incrementAndGet();
-		template.convertAndSend("", "queue1", message);
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+    @Scheduled(fixedDelay = 1000)
+    public void send() {
+        String message = "message-" + count.incrementAndGet();
+        template.convertAndSend("", "queue1", message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	@Scheduled(fixedDelay = 1000)
-	public void pull() throws Exception {
+    @Scheduled(fixedDelay = 1000)
+    public void pull() throws Exception {
 
-		 Message message = template.receive("queue1");
-		 if (message == null) {
-			 System.out.println("队列为空");
-		 } else {
-			 System.out.println(" [c] get '" + new String(message.getBody(),
-			 "UTF-8"));
-		 }
+        Message message = template.receive("queue1");
+        if (message == null) {
+            System.out.println("队列为空");
+        } else {
+            System.out.println(" [c] get '" + new String(message.getBody(),
+                    "UTF-8"));
+        }
 
 		/*
 		// 如要手动确认
@@ -67,10 +67,10 @@ public class PullConsum {
 			return null;
 		});
 		*/
-	}
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(PullConsum.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(PullConsum.class, args);
+        System.in.read();
+    }
 }

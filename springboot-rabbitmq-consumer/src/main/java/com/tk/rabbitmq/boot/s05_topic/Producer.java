@@ -14,37 +14,37 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SpringBootApplication
 @EnableScheduling
 public class Producer {
-	@Autowired
-	private RabbitTemplate template;
+    @Autowired
+    private RabbitTemplate template;
 
-	@Autowired
-	private TopicExchange topic;
+    @Autowired
+    private TopicExchange topic;
 
-	AtomicInteger count = new AtomicInteger(0);
+    AtomicInteger count = new AtomicInteger(0);
 
-	Random random = new Random();
-	String[] speeds = { "higher", "middle", "lazy" };
-	String[] colours = { "red", "orange", "blue", "black", "yellow", "green" };
-	String[] species = { "pig", "rabbit", "monkey", "dog", "cat" };
+    Random random = new Random();
+    String[] speeds = {"higher", "middle", "lazy"};
+    String[] colours = {"red", "orange", "blue", "black", "yellow", "green"};
+    String[] species = {"pig", "rabbit", "monkey", "dog", "cat"};
 
-	@Scheduled(fixedDelay = 3000)
-	public void send() {
+    @Scheduled(fixedDelay = 3000)
+    public void send() {
 
-	String routingKey = speeds[random.nextInt(100) % speeds.length] + "."
-				+ colours[random.nextInt(100) % colours.length] + "." + species[random.nextInt(100) % species.length];
+        String routingKey = speeds[random.nextInt(100) % speeds.length] + "."
+                + colours[random.nextInt(100) % colours.length] + "." + species[random.nextInt(100) % species.length];
 
 
-		int i = count.incrementAndGet();
+        int i = count.incrementAndGet();
 
-		String message = "topic message-" + i + " routingKey=" + routingKey;
+        String message = "topic message-" + i + " routingKey=" + routingKey;
 
-		template.convertAndSend(topic.getName(), routingKey, message);
+        template.convertAndSend(topic.getName(), routingKey, message);
 
-		System.out.println(" [x] Sent '" + message + "'");
-	}
+        System.out.println(" [x] Sent '" + message + "'");
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Producer.class, args);
-		System.in.read();
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Producer.class, args);
+        System.in.read();
+    }
 }

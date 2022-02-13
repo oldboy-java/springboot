@@ -1,7 +1,7 @@
 server:
-    port: 8090
-    servlet:
-        context-path: /
+  port: 8090
+  servlet:
+    context-path: /
 logging:
-    file:
-        name: log/app.log
+  file:
+    name: log/app.log

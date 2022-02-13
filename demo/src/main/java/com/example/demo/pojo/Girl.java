@@ -22,8 +22,8 @@ public class Girl {
      */
     private CupSize cupSize;
 
-    public Girl(Integer age , CupSize cupSize) {
-        this.age  = age;
+    public Girl(Integer age, CupSize cupSize) {
+        this.age = age;
         this.cupSize = cupSize;
     }
 

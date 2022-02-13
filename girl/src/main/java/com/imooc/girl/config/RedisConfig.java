@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties(prefix ="spring.redis")
+@ConfigurationProperties(prefix = "spring.redis")
 @Data
 @Configuration
 public class RedisConfig {

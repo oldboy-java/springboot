@@ -10,11 +10,10 @@ public class ExpirationMsgConfiguration {
 
     @Bean
     public Queue hello() {
-        Queue queue =  new Queue("spring-queue8");
-        queue.getArguments().put("x-message-ttl",2* 60000);
+        Queue queue = new Queue("spring-queue8");
+        queue.getArguments().put("x-message-ttl", 2 * 60000);
         return queue;
     }
-
 
 
     @Bean

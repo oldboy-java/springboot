@@ -18,34 +18,34 @@ public class HttpClientAutoConfiguration {
     private HttpClientProperties httpClientProperties;
 
 
-    public  HttpClientAutoConfiguration(HttpClientProperties httpClientProperties) {
+    public HttpClientAutoConfiguration(HttpClientProperties httpClientProperties) {
         this.httpClientProperties = httpClientProperties;
     }
 
 
     @Bean
-    public  HttpClient httpClient(){
+    public HttpClient httpClient() {
         RequestConfig.Builder custom = RequestConfig.custom();
         custom.setConnectTimeout(this.httpClientProperties.getConnectTimeout());
         custom.setSocketTimeout(this.httpClientProperties.getSocketTimeout());
-        RequestConfig config =  custom.build();
+        RequestConfig config = custom.build();
 
         HttpClient client = HttpClientBuilder.create()
-		         .setDefaultRequestConfig(config)
-				 .setUserAgent(this.httpClientProperties.getAgent())
+                .setDefaultRequestConfig(config)
+                .setUserAgent(this.httpClientProperties.getAgent())
 
                 // 每个服务（域名）请求的最大连接数
                 .setMaxConnPerRoute(this.httpClientProperties.getMaxConnPerRoute())
 
                 // 总连接数
-				.setMaxConnTotal(this.httpClientProperties.getMaxConnTotal())
+                .setMaxConnTotal(this.httpClientProperties.getMaxConnTotal())
 
                 .build();
 
-                // 不使用连接重用
+        // 不使用连接重用
 //                .setConnectionReuseStrategy(new NoConnectionReuseStrategy()).build();
 
-            // 默认使用长连接，提升性能
+        // 默认使用长连接，提升性能
 
         return client;
 

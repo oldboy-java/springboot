@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ExpirationMessagePublisher {
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(ExpirationMessagePublisher.class, args);
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(ExpirationMessagePublisher.class, args);
 
-		System.in.read();
-	}
+        System.in.read();
+    }
 }

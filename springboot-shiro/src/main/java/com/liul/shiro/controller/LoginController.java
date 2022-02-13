@@ -43,7 +43,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String pwd, Model model){
+    public String login(@RequestParam("username") String username, @RequestParam("password") String pwd, Model model) {
         log.info("username={}, password={}", username, pwd);
         String error = null;
         Subject user = SecurityUtils.getSubject();
@@ -52,16 +52,16 @@ public class LoginController {
             token.setRememberMe(true);
             try {
                 user.login(token);
-            }catch (AuthenticationException ae) {
+            } catch (AuthenticationException ae) {
                 if (ae instanceof IncorrectCredentialsException) {
                     log.error("login failed={}", "用户凭证不正确");
                     error = "用户凭证不正确";
-                }  else if (ae instanceof UnknownAccountException) {
+                } else if (ae instanceof UnknownAccountException) {
                     log.error("login failed={}", "用户不存在");
-                    error ="用户不存在";
+                    error = "用户不存在";
                 } else if (ae instanceof LockedAccountException) {
                     log.error("login failed={}", "用户账号被锁定");
-                    error ="用户账号被锁定";
+                    error = "用户账号被锁定";
                 }
                 // 设置错误信息，前台页面给与错误提示
                 model.addAttribute("error", error);

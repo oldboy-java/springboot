@@ -4,8 +4,8 @@ import org.springframework.data.domain.Sort;
 
 /***
  * 排序对象
- * @author	刘力
- * @date	2017年12月2日下午3:09:20
+ * @author 刘力
+ * @date 2017年12月2日下午3:09:20
  * @version 1.0
  */
 public class SortDto {

@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HelloController {
-	
-	/*@Value("${girl.cupSize}")
-	private String cupSize;
-	
-	@Value("${girl.content}")
-	private String content;
-*/	
-	@Autowired
-	private GirlProperties girlProperties;
+
+    /*@Value("${girl.cupSize}")
+    private String cupSize;
+
+    @Value("${girl.content}")
+    private String content;
+*/
+    @Autowired
+    private GirlProperties girlProperties;
 
 
     /***
@@ -29,9 +29,9 @@ public class HelloController {
      * @param ex
      * @return
      */
-	public String exceptionHandler(BlockException ex) {
-			return "Blocked by Sentinel: " + ex.getClass().getSimpleName();
-	}
+    public String exceptionHandler(BlockException ex) {
+        return "Blocked by Sentinel: " + ex.getClass().getSimpleName();
+    }
 
 
     /**
@@ -41,6 +41,7 @@ public class HelloController {
      * 返回值类型必须与原函数返回值类型一致；
      * 方法参数列表需要和原函数一致，或者可以额外多一个 Throwable 类型的参数用于接收对应的异常。
      * fallback 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 fallbackClass 为对应的类的 Class 对象，注意对应的函数必需为 static 函数，否则无法解析。
+     *
      * @return
      */
     // Fallback 函数，函数签名与原函数一致或加一个 Throwable 类型的参数.
@@ -48,42 +49,44 @@ public class HelloController {
         return String.format("Halooooo %d", "123");
     }
 
-	@SentinelResource(value = "say"/**, blockHandler = "exceptionHandler", fallback = "helloFallback"**/)
-	@RequestMapping(value="say",method=RequestMethod.GET)
-	public String say() {
-		return girlProperties.getCupSize() + "," + girlProperties.getAge();
-	}
+    @SentinelResource(value = "say"/**, blockHandler = "exceptionHandler", fallback = "helloFallback"**/)
+    @RequestMapping(value = "say", method = RequestMethod.GET)
+    public String say() {
+        return girlProperties.getCupSize() + "," + girlProperties.getAge();
+    }
 
 
-	@GetMapping(value="say2")
-	@SentinelResource(value = "say2")
-	public String say2(@RequestParam(value="id",required=false,defaultValue="0") int id) {
-		return "Id=" + id;
-	}
+    @GetMapping(value = "say2")
+    @SentinelResource(value = "say2")
+    public String say2(@RequestParam(value = "id", required = false, defaultValue = "0") int id) {
+        return "Id=" + id;
+    }
 
 
     /**
-     *  请求速率限流方法
+     * 请求速率限流方法
+     *
      * @param id
      * @return
      */
-	@GetMapping(value="/access-limit/nginx-rate")
-	public String nginxRate(@RequestParam("id") int id) {
-		return "Id=" + id;
-	}
+    @GetMapping(value = "/access-limit/nginx-rate")
+    public String nginxRate(@RequestParam("id") int id) {
+        return "Id=" + id;
+    }
 
 
-	/**
-	 *  请求连接数限流方法
-	 * @return
-	 */
-	@GetMapping(value="/access-limit/nginx-conn")
-	public String nginxConn(@RequestParam("seconds") int seconds) {
-		try {
-			Thread.sleep(1000 * seconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return "success";
-	}
+    /**
+     * 请求连接数限流方法
+     *
+     * @return
+     */
+    @GetMapping(value = "/access-limit/nginx-conn")
+    public String nginxConn(@RequestParam("seconds") int seconds) {
+        try {
+            Thread.sleep(1000 * seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
 }

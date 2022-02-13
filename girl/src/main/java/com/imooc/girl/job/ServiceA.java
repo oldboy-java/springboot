@@ -13,7 +13,7 @@ public class ServiceA {
     private ServiceB serviceB;
 
 
-    public String  a(){
+    public String a() {
         CompletableFuture<String> future = serviceB.b(30);
 
         System.err.println(future);

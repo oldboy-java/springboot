@@ -18,15 +18,15 @@ public class SessionController {
 
     //使用此注解时，shiroConfiguration中配置的/**也会起作用，起不到Remember me可以访问的目的
     // 排除其他影响，将配置中的/** 需要登录的配置需要注释掉
-   @RequiresUser
-    public String  session(HttpSession session) {
+    @RequiresUser
+    public String session(HttpSession session) {
         // 使用HttpSession设置属性值
         session.setAttribute("session", session.getId());
 
         // 模拟在Service层中通过Shiro获取HttpSession中的属性值
         Subject subject = SecurityUtils.getSubject();
-        Session  shiroSession = subject.getSession();
+        Session shiroSession = subject.getSession();
 
-        return  (String)shiroSession.getAttribute("session");
+        return (String) shiroSession.getAttribute("session");
     }
 }

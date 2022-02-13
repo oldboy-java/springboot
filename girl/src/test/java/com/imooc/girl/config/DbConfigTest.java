@@ -15,12 +15,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles({"prod"}) //只激活prod环境
 public class DbConfigTest {
 
-	@Autowired
-	@Qualifier("db")
-	private Db db;
-	
-	@Test
-	public void  getDbest() throws Exception {
+    @Autowired
+    @Qualifier("db")
+    private Db db;
+
+    @Test
+    public void getDbest() throws Exception {
 //		Assert.assertEquals(db.getUser(), "zhangsan");
-	}
+    }
 }

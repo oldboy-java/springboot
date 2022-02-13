@@ -14,19 +14,19 @@ import java.util.Arrays;
 @SpringBootApplication
 public class HelloworldApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloworldApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HelloworldApplication.class, args);
+    }
 
 
-	@GetMapping("/hello")
-	public String hello(){
-		return "hello world!";
-	}
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello world!";
+    }
 
 
-	@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx){
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		/*return  new CommandLineRunner(){
 			@Override
 			public void run(String... args){
@@ -37,12 +37,12 @@ public class HelloworldApplication {
 			}
 		};*/
 
-		return  args -> {
-			System.out.println("来看看 SpringBoot 默认为我们提供的 Bean：");
-			String[] beanNames = ctx.getBeanDefinitionNames();
-			Arrays.sort(beanNames);
-			Arrays.stream(beanNames).forEach(System.out::println);
-		};
+        return args -> {
+            System.out.println("来看看 SpringBoot 默认为我们提供的 Bean：");
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            Arrays.stream(beanNames).forEach(System.out::println);
+        };
 
-	}
+    }
 }

@@ -15,9 +15,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfig {
     @Bean
-    public RedisCacheConfiguration   redisCacheConfiguration(CacheProperties cacheProperties){
+    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
         // 获取默认配置
-        RedisCacheConfiguration config  = RedisCacheConfiguration.defaultCacheConfig();
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         // 指定序列化器
         config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
         config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
