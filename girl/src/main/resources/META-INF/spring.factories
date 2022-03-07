@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.config.Bean1AutoConfiguration,\
+org.config.Bean2AutoConfiguration
