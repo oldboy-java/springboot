@@ -22,7 +22,7 @@ public class AuthFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // TODO Auto-generated method stub
-        Girl g = girlService.findGirl(1);
+        Girl g = girlService.findGirl(1L);
         log.info("girl={}", g);
     }
 

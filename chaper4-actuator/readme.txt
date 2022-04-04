@@ -88,8 +88,9 @@
     
    8.6 定制自己的HealthIndicator
       实现HealthIndicator接口，覆盖health方法
-   
-      
+
+   访问地址，可以查看自定义的健康状态
+      http://localhost:9091/actuator/health
       
   
   

@@ -6,6 +6,8 @@ spring:
     url: jdbc:mysql://localhost:3306/dbgirl
     username: root
     password: 123456
+    druid:
+      max-wait: -1  #获取连接不超时，一直等
 
   redis:
     host: localhost
@@ -27,11 +29,7 @@ spring:
     #      pool:
     #        size: 5
 
-    ##每次都重新建立表，可以再第一时使该参数，后续用使用update
-  jpa:
-    hibernate:
-      ddl-auto: update
-      show-sql: true
+
   main:
     allow-bean-definition-overriding: true
   task:
@@ -55,3 +53,22 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    root: ERROR
+
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:META-INF/mybatis/mapper/**/*.xml
+  config-location: classpath:META-INF/mybatis/mybatis-config.xml
+
+
+server:
+  tomcat:
+    max-connections: 8192  #最大连接数，超过最大连接数 + 等待队列长度的请求直接拒绝
+    accept-count: 100   #超过最大连接数后，等待队列长度
+    threads:
+      max: 200   #最大并发请求数，同一时刻能处理的最大请求数，当处理完请求后，从请求连接中又并发处理200，直到所有连接请求处理完毕
+      min-spare: 10

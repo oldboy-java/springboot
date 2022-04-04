@@ -28,7 +28,7 @@ public interface GirlService {
      * @param girl
      * @return
      */
-    public Girl updateGirl(Girl girl);
+    public Integer updateGirl(Girl girl);
 
 
     /***
@@ -36,26 +36,12 @@ public interface GirlService {
      * @param id
      * @return
      */
-    public Girl findGirl(Integer id);
+    public Girl findGirl(Long id);
 
     /***
      * 删除女生
      * @param id
      */
-    public void deleteGirl(Integer id);
+    public void deleteGirl(Long id);
 
-    /***
-     * 根据年龄查询女生
-     * @param age
-     * @return
-     */
-    public List<Girl> girlListByAge(Integer age);
-
-    /**
-     * 查询女生年龄
-     *
-     * @param id
-     * @return
-     */
-    public Integer getGirlAge(Integer id) throws Exception;
 }

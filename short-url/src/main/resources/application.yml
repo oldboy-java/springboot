@@ -16,3 +16,12 @@ spring:
       max-active: 20
       test-on-borrow: true
 
+logging:
+  level:
+     root: INFO
+
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:META-INF/mybatis/mapper/**/*.xml
+  config-location: classpath:META-INF/mybatis/mybatis-config.xml

@@ -9,15 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HelloController {
 
-    /*@Value("${girl.cupSize}")
-    private String cupSize;
-
-    @Value("${girl.content}")
-    private String content;
-*/
     @Autowired
     private GirlProperties girlProperties;
-
 
     /***
      *   Block 异常处理函数，参数最后多一个 BlockException，其余与原函数一致.

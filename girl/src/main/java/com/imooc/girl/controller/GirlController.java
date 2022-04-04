@@ -83,7 +83,7 @@ public class GirlController {
      */
     @PutMapping(value = "girls/{id}")
     public Result<Object> updateGirl(@RequestParam("age") Integer age, @RequestParam("cupSize") String cupSize,
-                                     @PathVariable("id") Integer id) {
+                                     @PathVariable("id") Long id) {
         Girl girl = new Girl();
         girl.setId(id);
         girl.setAge(age);
@@ -99,7 +99,7 @@ public class GirlController {
      */
     @GetMapping(value = "girls/{id}")
     @ApiOperation(value = "根据用户ID查询用户")
-    public Result<Object> findGirl(@ApiParam(name = "id", value = "用户ID", required = true) @PathVariable("id") Integer id) {
+    public Result<Object> findGirl(@ApiParam(name = "id", value = "用户ID", required = true) @PathVariable("id") Long id) {
         return ResultUtils.success(girlService.findGirl(id));
     }
 
@@ -109,31 +109,9 @@ public class GirlController {
      * @param id
      */
     @DeleteMapping(value = "girls/{id}")
-    public Result<Object> deleteGirl(@PathVariable("id") Integer id) {
+    public Result<Object> deleteGirl(@PathVariable("id") Long id) {
         girlService.deleteGirl(id);
         return ResultUtils.success(null);
-    }
-
-    /**
-     * 根据年龄查询女生列表
-     *
-     * @return
-     */
-    @GetMapping(value = "girls/age/{age}")
-    public Result<Object> girlListByAge(@PathVariable("age") Integer age) {
-        return ResultUtils.success(girlService.girlListByAge(age));
-    }
-
-    /***
-     * 查询女生年龄
-     *
-     * @param id
-     * @return
-     * @throws Exception
-     */
-    @GetMapping(value = "girls/getAge/{id}")
-    public Result<Object> getGirlAge(@PathVariable("id") Integer id) throws Exception {
-        return ResultUtils.success(girlService.getGirlAge(id));
     }
 
 }

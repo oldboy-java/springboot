@@ -14,9 +14,5 @@ public class GirlServiceTest {
     @Autowired
     private GirlService girlService;
 
-    @Test
-    public void getGirlAgeTest() throws Exception {
-        Assert.assertEquals(new Integer(89), girlService.getGirlAge(2));
-    }
 
 }
