@@ -1,0 +1,20 @@
+
+
+
+spring:
+  redis:
+    database: 1
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+    cluster:
+      nodes: 192.168.126.131:6371,192.168.126.131:6372,192.168.126.131:6373,192.168.126.132:6374,192.168.126.132:6375,192.168.126.132:6376
+
+
+
+logging:
+  level:
+     root: debug
