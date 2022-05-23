@@ -8,7 +8,8 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.Properties;
 
 /**
- * 自定义sharding主键生成器（Redis实现）
+ * 自定义sharding主键生成器（Redis实现）,使用JAVASPI机制进行注册
+ * 如要在resources/META-NF/services按spi机制定义RedisKeyGenerator
  */
 public class RedisKeyGenerator implements ShardingKeyGenerator {
     private JedisPool jedisPool;
