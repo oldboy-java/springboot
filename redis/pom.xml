@@ -18,6 +18,8 @@
         <module>liul-spring-boot-redis-autoconfigure</module>
         <module>list</module>
         <module>redis-cluster-demo</module>
+        <module>redis-publish-subscribe</module>
+        <module>redis-block-queue</module>
     </modules>
 
 
