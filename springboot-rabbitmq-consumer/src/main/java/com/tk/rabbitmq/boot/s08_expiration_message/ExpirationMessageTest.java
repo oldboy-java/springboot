@@ -2,13 +2,12 @@ package com.tk.rabbitmq.boot.s08_expiration_message;
 
 
 import com.alibaba.fastjson.JSON;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,6 @@ import java.util.stream.IntStream;
 //@SpringBootTest注解会自动检索程序的配置文件，
 // 检索顺序是从当前包开始，逐级向上查找被@SpringBootApplication或@SpringBootConfiguration注解的类
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ExpirationMessageTest {
 
     @Autowired

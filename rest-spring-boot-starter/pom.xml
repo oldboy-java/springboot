@@ -1,17 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.liuli.tk</groupId>
+
+    <parent>
+        <artifactId>springboot</artifactId>
+        <groupId>com.liuli.boot</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>rest-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>com.liuli.tk</groupId>
+            <groupId>com.liuli.boot</groupId>
             <artifactId>rest-spring-boot-autoconfigure</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
-
     </dependencies>
 </project>
