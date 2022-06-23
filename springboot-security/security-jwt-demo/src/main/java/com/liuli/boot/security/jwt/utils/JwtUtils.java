@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Slf4j
-public class JwtUtil {
+public class JwtUtils {
 
     // 私钥
     public static String SIGN_KEY = TokenConstant.SIGN_KEY;
@@ -30,7 +30,7 @@ public class JwtUtil {
     public static Claims parseJwtToken(String jwt) {
        try{
             return Jwts.parser()
-                    .setSigningKey(Base64.getDecoder().decode(JwtUtil.BASE64_SECURITY))
+                    .setSigningKey(Base64.getDecoder().decode(JwtUtils.BASE64_SECURITY))
                     .parseClaimsJws(jwt).getBody();
         } catch (JwtException ex) {
             log.error("token check failed:{}",ex);
@@ -49,7 +49,7 @@ public class JwtUtil {
             return false;
         }
         try{
-             Jwts.parser().setSigningKey(Base64.getDecoder().decode(JwtUtil.BASE64_SECURITY)).parseClaimsJws(jwt);
+             Jwts.parser().setSigningKey(Base64.getDecoder().decode(JwtUtils.BASE64_SECURITY)).parseClaimsJws(jwt);
         } catch (JwtException ex) {
             log.error("token check failed:{}",ex);
             return  false;
@@ -60,12 +60,12 @@ public class JwtUtil {
 
     /**
      *  创建令牌
-     * @param user
+     * @param data
      * @param subject
      * @param ttlMillis
      * @return
      */
-    public static String createJwtToken(Map<String, Object> user, String subject,  Long ttlMillis) {
+    public static String createJwtToken(Map<String, Object> data, String subject,  Long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -86,7 +86,7 @@ public class JwtUtil {
                 .signWith(signatureAlgorithm, signingKey);
 
         //设置JWT参数
-        user.forEach(builder::claim);
+        data.forEach(builder::claim);
 
         //添加Token过期时间
         long expMillis = nowMillis + ttlMillis;

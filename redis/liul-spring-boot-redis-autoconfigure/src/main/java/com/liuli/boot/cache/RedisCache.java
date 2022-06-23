@@ -15,4 +15,9 @@ public class RedisCache<T> {
         ValueOperations<String, T> stringTValueOperations = redisTemplate.opsForValue();
         stringTValueOperations.set(key, value);
     }
+
+    public Object get(String key) {
+        ValueOperations<String, T> stringTValueOperations = redisTemplate.opsForValue();
+        return stringTValueOperations.get(key);
+    }
 }

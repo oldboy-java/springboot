@@ -1,5 +1,6 @@
-package com.liuli.boot.security.jwt.dto;
+package com.liuli.boot.secuiry.quickstart.dto;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

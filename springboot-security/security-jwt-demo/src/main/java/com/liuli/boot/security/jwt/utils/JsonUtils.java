@@ -8,7 +8,7 @@ import ognl.OgnlContext;
 
 import java.util.Map;
 
-public class JsonUtil {
+public class JsonUtils {
 
     /**
      * 将制定JSON转为Map，Key固定为String, 对应JSONKey，

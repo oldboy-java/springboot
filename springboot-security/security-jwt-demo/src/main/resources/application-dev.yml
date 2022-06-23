@@ -2,16 +2,16 @@ server:
   port: 8080
   servlet:
     context-path: /
-spring:
-  datasource:
-    druid:
-      driver-class-name:  com.mysql.jdbc.Driver
-      username: ${mysql.username}
-      password: ${mysql.password}
-      url:  jdbc:mysql://${mysql.host}:${mysql.port}/spring_security
-      max-active: 10
-      min-idle: 5
-      max-wait:  -1
-  redis:
-    port: ${redis.port}
-    host: ${redis.host}
+  spring:
+    datasource:
+      druid:
+        driver-class-name: com.mysql.jdbc.Driver
+        username: ${mysql.username}
+        password: ${mysql.password}
+        url: jdbc:mysql://${mysql.host}:${mysql.port}/spring_security
+        max-active: 10
+        min-idle: 5
+        max-wait: -1
+    redis:
+      port: ${redis.port}
+      host: ${redis.host}

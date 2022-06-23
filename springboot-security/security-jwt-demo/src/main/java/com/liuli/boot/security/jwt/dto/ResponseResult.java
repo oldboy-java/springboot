@@ -18,4 +18,7 @@ public class ResponseResult<T>{
        return  ResponseResult.builder().code(200).msg("success").data(data).build();
     }
 
+    public static   ResponseResult error(Integer code, String msg){
+        return  ResponseResult.builder().code(code).msg(msg).build();
+    }
 }
