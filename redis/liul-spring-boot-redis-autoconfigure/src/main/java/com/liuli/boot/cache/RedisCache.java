@@ -20,4 +20,8 @@ public class RedisCache<T> {
         ValueOperations<String, T> stringTValueOperations = redisTemplate.opsForValue();
         return stringTValueOperations.get(key);
     }
+
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
 }

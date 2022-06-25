@@ -27,7 +27,7 @@ public class AuthenticationFailEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseResult responseResult = ResponseResult.error(HttpStatus.UNAUTHORIZED.value(), "用户认证失败");
+        ResponseResult responseResult = ResponseResult.error(HttpStatus.UNAUTHORIZED.value(), authException.getMessage());
         WebUtils.renderJson(response, JSON.toJSONString(responseResult));
     }
 }

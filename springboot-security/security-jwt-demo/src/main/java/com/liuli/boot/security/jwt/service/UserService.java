@@ -13,4 +13,6 @@ public interface UserService {
     ResponseResult login(UserDTO userDTO);
 
     List<String> listPermissions(Long id);
+
+    ResponseResult logout();
 }

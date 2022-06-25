@@ -4,6 +4,7 @@ import com.liuli.boot.cache.RedisCache;
 import com.liuli.boot.security.jwt.secuity.userdetails.LoginUserDetail;
 import com.liuli.boot.security.jwt.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -45,6 +47,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         // 获取用户ID
         Integer userId =  (Integer)claims.get("userId");
+
         // 从缓存中获取用户信息
         LoginUserDetail user =  (LoginUserDetail) redisCache.get("login:" + userId);
 
@@ -55,5 +58,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         context.setAuthentication(authentication);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+
+        log.info("over.....");
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -75,6 +76,18 @@ public class UserServiceImpl  extends ServiceImpl<UserMapper, UserEntity> implem
     @Override
     public List<String> listPermissions(Long id) {
         return userMapper.listPermissionsByUserId(id);
+    }
+
+    @Override
+    public ResponseResult logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUserDetail principal = (LoginUserDetail) authentication.getPrincipal();
+        // 清理redis用户信息
+        Long userId = principal.getUserDTO().getId();
+        redisCache.delete("login:" + userId);
+
+        // SecurityContextPersistenceFilter中会清理SecurityContextHolder
+        return ResponseResult.success();
     }
 
     /**

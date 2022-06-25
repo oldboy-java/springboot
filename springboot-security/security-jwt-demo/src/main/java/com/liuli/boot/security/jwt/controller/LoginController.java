@@ -19,9 +19,21 @@ public class LoginController {
         return userService.login(userDTO);
     }
 
+
+    @PostMapping("/logout")
+    public ResponseResult logout() {
+        return userService.logout();
+    }
+
     @GetMapping("/hello")
     @PreAuthorize("hasAuthority('p4')")
     public ResponseResult hello() {
         return ResponseResult.success("hello");
+    }
+
+    @GetMapping("/hello2")
+    @PreAuthorize("@spv.hasAuthority('p4')")
+    public ResponseResult hello2() {
+        return ResponseResult.success("hello2");
     }
 }

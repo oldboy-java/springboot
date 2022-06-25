@@ -74,14 +74,15 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 csrf().disable() //关闭csrf
                 // 不使用session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
                 .authorizeRequests()
                 //登录接口可以匿名访问
                 .antMatchers("/user/login").anonymous()
                 //其他请求，都必须认证后才能访问
                 .anyRequest().authenticated()
-                .and()
 
+                .and()
                 // FilterSecurityInterceptor进行授权拦截，从SecurityContextHolder中获取SecurityContext
                 .addFilterBefore(jwtAuthenticationTokenFilter, FilterSecurityInterceptor.class)
 
@@ -89,6 +90,9 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authenticationFailEntryPoint)
 
                 // 添加授权异常处理器
-                .accessDeniedHandler(authorizationFailHandler);
+            .accessDeniedHandler(authorizationFailHandler);
+
+                // 允许跨域
+            http.cors();
     }
 }
