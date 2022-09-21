@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: pro
+  security:
+    user:
+      name: user
+      password: password
+      roles: USER
 
 mybatis-plus:
   mapper-locations:

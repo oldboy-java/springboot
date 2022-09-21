@@ -21,7 +21,6 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // TODO Auto-generated method stub
         Girl g = girlService.findGirl(1L);
         log.info("girl={}", g);
     }
@@ -38,7 +37,7 @@ public class AuthFilter implements Filter {
         String query = req.getQueryString();
 
         //这里主要测试拦截html，如果访问html，直接报错500
-        if (url.endsWith(".html") && !url.contains("login.html") && !url.contains("swagger-ui.html")) {
+        if (url.endsWith(".html") && !url.contains("login.html") && !url.contains("swagger-ui.html") && ! url.contains("/druid")) {
             //在Filter中获取Bean对象
             GirlService girlService2 = SpringContextUtils.getBean(GirlService.class);
 
