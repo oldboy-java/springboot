@@ -208,5 +208,25 @@
 
         </dependencies>
     </dependencyManagement>
-	
+
+
+    <build>
+    <plugins>
+        <!-- 编译插件 -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>2.7.0</version>
+            <!-- 加上下面的后打包才包含外部依赖lib包，否则打出的包不哈依赖包，没法使用java -jar运行-->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </build>
+
 </project>
