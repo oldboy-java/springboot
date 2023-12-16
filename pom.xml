@@ -35,6 +35,7 @@
 		<module>springboot-shiro</module>
         <module>sharding-jdbc-demo</module>
         <module>springboot-security</module>
+        <module>elasticsearch-demo</module>
     </modules>
     
 	
