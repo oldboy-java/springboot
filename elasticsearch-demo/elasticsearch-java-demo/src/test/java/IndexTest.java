@@ -1,3 +1,4 @@
+import com.liuli.boot.es.java.model.es.MappingProperty;
 import com.liuli.boot.es.java.utils.EsIndexUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
@@ -53,10 +54,10 @@ public class IndexTest {
      */
     @Test
     public void testCreateIndex2() throws Exception{
-        Map<String, Object> properties =new HashMap<>();
-        properties.put("id", "LONG");
-        properties.put("name", "STRING");
-        EsIndexUtils.createIndex(client, "student");
+        MappingProperty mappingProperty =new MappingProperty();
+        mappingProperty.put("id", new MappingProperty(MappingProperty.LONG));
+        mappingProperty.put("name", new MappingProperty(MappingProperty.KEYWORD));
+        EsIndexUtils.createIndex(client, "student", mappingProperty);
     }
 
     /**
@@ -80,12 +81,27 @@ public class IndexTest {
     }
 
 
-
     /**
-     *  delete index
+     * create index
      */
-//    @Test
-//    public void testDeleteIndex() throws Exception{
-//        EsIndexUtils.deleteIndex(client, "user");
-//    }
+    @Test
+    public void testCreateDangdangBooksIndex() throws Exception{
+        MappingProperty mappingProperty =new MappingProperty();
+        mappingProperty.put("id",  new MappingProperty(MappingProperty.KEYWORD));
+        mappingProperty.put("sku", new MappingProperty(MappingProperty.KEYWORD));
+        mappingProperty.put("name", new MappingProperty(MappingProperty.TEXT));
+        mappingProperty.put("detail", new MappingProperty(MappingProperty.TEXT));
+        mappingProperty.put("nowPrice", new MappingProperty(MappingProperty.DOUBLE));
+        mappingProperty.put("prePrice", new MappingProperty(MappingProperty.DOUBLE));
+        mappingProperty.put("priceUint", new MappingProperty(MappingProperty.KEYWORD));
+        mappingProperty.put("img", new MappingProperty(MappingProperty.TEXT));
+        mappingProperty.put("comment", new MappingProperty(MappingProperty.LONG));
+        mappingProperty.put("press", new MappingProperty(MappingProperty.TEXT));
+        mappingProperty.put("author", new MappingProperty(MappingProperty.TEXT));
+        mappingProperty.put("publishDate", new MappingProperty(MappingProperty.DATE));
+        boolean books = EsIndexUtils.createIndex(client, "books", mappingProperty);
+        log.error("create book index successful ? " + books);
+
+    }
+
 }

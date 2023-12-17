@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.liuli.boot.es.java.model.Sort;
 import com.liuli.boot.es.java.model.es.BaseEsModel;
 import com.liuli.boot.es.java.model.page.PageResult;
+import com.liuli.boot.es.java.model.page.Pager;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -19,6 +20,8 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.text.Text;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
@@ -26,12 +29,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 public class EsDocumentUtils {
@@ -123,8 +125,36 @@ public class EsDocumentUtils {
      * @param models
      */
     public static void batchInsertDocs(RestHighLevelClient client, String indexName, List<BaseEsModel> models) {
+        if (CollectionUtils.isEmpty(models)) {
+            return;
+        }
         try {
             BulkRequest bulkRequest = new BulkRequest();
+            for (BaseEsModel model : models) {
+                IndexRequest indexRequest = new IndexRequest(indexName);
+                indexRequest.id(model.getId());
+                indexRequest.source(JSON.toJSONString(model), XContentType.JSON);
+                bulkRequest.add(indexRequest);
+            }
+            BulkResponse bulk = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+            log.info("batch insert docs result:{}", JSON.toJSONString(bulk));
+        } catch (Exception ex) {
+            throw new RuntimeException("batch insert docs fail,cause=" + ex.getMessage());
+        }
+    }
+
+    /**
+     * 批量插入文档
+     *
+     * @param client
+     * @param indexName
+     * @param models
+     */
+    public static void batchInsertDocs(RestHighLevelClient client, String indexName, List<BaseEsModel> models, TimeValue timeout) {
+        try {
+            BulkRequest bulkRequest = new BulkRequest();
+            //设置超时时间，默认是1分钟:1m
+            bulkRequest.timeout(timeout);
             for (BaseEsModel model : models) {
                 IndexRequest indexRequest = new IndexRequest(indexName);
                 indexRequest.id(model.getId());
@@ -196,11 +226,10 @@ public class EsDocumentUtils {
      @param client 客户端
       * @param indexName 索引名
      * @param cls  查询对象类型
-     * @param  pageIndex 页码
-     * @param  pageSize 每页显示条数
+     * @param  pager 分页信息
      */
-    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Integer pageIndex, Integer pageSize) {
-        return listAllByPage(client, indexName, cls, pageIndex, pageSize, null);
+    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Pager pager) {
+        return listAllByPage(client, indexName, cls, pager, null);
     }
 
     /**
@@ -209,46 +238,14 @@ public class EsDocumentUtils {
      @param client 客户端
       * @param indexName 索引名
      * @param cls  查询对象类型
-     * @param  pageIndex 页码
-     * @param  pageSize 每页显示条数
-     * @param sort 排序信息
+     * @param  pager 分页信息
+     * @param sorts 排序信息
      */
-    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Integer pageIndex, Integer pageSize, Sort sort) {
-        try {
-            List<T> result = new ArrayList<>();
-            SearchRequest searchRequest = new SearchRequest();
-            //指定查询索引名
-            searchRequest.indices(indexName);
-
-            //查询数据构造器
-            SearchSourceBuilder searchSourceBuilder = SearchSourceBuilder.searchSource();
-            //设置分页
-            if (Objects.nonNull(pageIndex) && Objects.nonNull(pageSize)) {
-                searchSourceBuilder.from((pageIndex-1) * pageSize);
-                searchSourceBuilder.size(pageSize);
-            }
-
-            //设置排序
-            if (Objects.nonNull(sort) && Objects.nonNull(sort.getSortField()) && Objects.nonNull(sort.getAsc())) {
-                searchSourceBuilder.sort(sort.getSortField(), sort.getAsc() ? SortOrder.ASC : SortOrder.DESC);
-            }
-           //指定查询条件：查询所有
-            searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-
-            //指定数据的查询方式
-            searchRequest.source(searchSourceBuilder);
-            SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-            SearchHits hits = response.getHits();
-            log.info("总记录数：{}", hits.getTotalHits());
-            log.info("总耗时：{}", response.getTook());
-            for (SearchHit hit : hits) {
-                T t = JSON.parseObject(hit.getSourceAsString(), cls);
-                result.add(t);
-            }
-            return new PageResult<T>(hits.getTotalHits().value, pageSize, pageIndex, result);
-        } catch (Exception ex) {
-            throw new RuntimeException("list all docs fail,cause=" + ex.getMessage());
-        }
+    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Pager pager, List<Sort> sorts) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        MatchAllQueryBuilder builder = QueryBuilders.matchAllQuery();
+        boolQueryBuilder.filter(builder);
+        return listAllByPage(client, indexName, cls, pager, sorts, boolQueryBuilder, Collections.emptyList());
     }
 
 
@@ -259,11 +256,13 @@ public class EsDocumentUtils {
      @param client 客户端
       * @param indexName 索引名
      * @param cls  查询对象类型
-     * @param  pageIndex 页码
-     * @param  pageSize 每页显示条数
-     * @param sort 排序信息
+     * @param  pager 分页信息
+     * @param sorts 排序信息
+     * @param queryBuilder 查询构造器
+     * @param highlightFields 高亮字段
      */
-    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Integer pageIndex, Integer pageSize, Sort sort, BoolQueryBuilder queryBuilder) {
+    public static <T> PageResult<T> listAllByPage(RestHighLevelClient client, String indexName, Class<T> cls, Pager pager,
+                                                  List<Sort> sorts, BoolQueryBuilder queryBuilder, List<String> highlightFields) {
         try {
             List<T> result = new ArrayList<>();
             SearchRequest searchRequest = new SearchRequest();
@@ -273,17 +272,26 @@ public class EsDocumentUtils {
             //查询数据构造器
             SearchSourceBuilder searchSourceBuilder = SearchSourceBuilder.searchSource();
             //设置分页
-            if (Objects.nonNull(pageIndex) && Objects.nonNull(pageSize)) {
-                searchSourceBuilder.from((pageIndex-1) * pageSize);
-                searchSourceBuilder.size(pageSize);
+            if (Objects.nonNull(pager.getPageIndex()) && Objects.nonNull(pager.getPageSize())) {
+                searchSourceBuilder.from((pager.getPageIndex()-1) * pager.getPageSize());
+                searchSourceBuilder.size(pager.getPageSize());
             }
 
-            //设置排序
-            if (Objects.nonNull(sort) && Objects.nonNull(sort.getSortField())) {
-                searchSourceBuilder.sort(sort.getSortField(), sort.getAsc() ? SortOrder.ASC : SortOrder.DESC);
+            //设置排序:排序字段必须时keyword类型
+            if (!CollectionUtils.isEmpty(sorts)) {
+                sorts.forEach(sort-> searchSourceBuilder.sort(sort.getField(), sort.getSortOrder()));
             }
             //指定查询条件
             searchSourceBuilder.query(queryBuilder);
+
+            //指定高亮
+            if (!CollectionUtils.isEmpty(highlightFields)) {
+                HighlightBuilder highlightBuilder = new HighlightBuilder();
+                highlightFields.forEach(field -> highlightBuilder.field(field));
+                highlightBuilder.preTags("<span style='color:red'>");
+                highlightBuilder.postTags("</span>");
+                searchSourceBuilder.highlighter(highlightBuilder);
+            }
 
             //指定数据的查询方式
             searchRequest.source(searchSourceBuilder);
@@ -292,43 +300,27 @@ public class EsDocumentUtils {
             log.info("总记录数：{}", hits.getTotalHits());
             log.info("总耗时：{}", response.getTook());
             for (SearchHit hit : hits) {
-                T t = JSON.parseObject(hit.getSourceAsString(), cls);
+                Map<String, HighlightField> highlightFieldMap = hit.getHighlightFields();
+                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+                highlightFieldMap.forEach((k,v) -> {
+                    sourceAsMap.put(k,  getHighlightValue(highlightFieldMap.get(k)));
+                });
+                T t = JSON.parseObject(JSON.toJSONString(sourceAsMap), cls);
                 result.add(t);
             }
-            return new PageResult<T>(hits.getTotalHits().value, pageSize, pageIndex, result);
+            return new PageResult<T>(hits.getTotalHits().value, pager.getPageSize(), pager.getPageIndex(), result);
         } catch (Exception ex) {
             throw new RuntimeException("list all docs fail,cause=" + ex.getMessage());
         }
     }
 
-
-
-//    /**
-//     * 查询所有文档:matchAllQuery
-//     *
-//     * @param client
-//     * @param indexName
-//     * @param cls
-//     */
-//    public static <T> List<T> listAll(RestHighLevelClient client, String indexName, Class<T> cls) {
-//        List<T> result = new ArrayList<>();
-//        try {
-//            SearchRequest searchRequest = new SearchRequest();
-//            searchRequest.indices(indexName);
-//            //指定数据的查询方式
-//            searchRequest.source(SearchSourceBuilder.searchSource().query(QueryBuilders.matchAllQuery()));
-//            SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-//            SearchHits hits = response.getHits();
-//            log.info("总记录数：{}", hits.getTotalHits());
-//            log.info("总耗时：{}", response.getTook());
-//            for (SearchHit hit : hits) {
-//                T t = JSON.parseObject(hit.getSourceAsString(), cls);
-//                result.add(t);
-//            }
-//        } catch (Exception ex) {
-//            throw new RuntimeException("list all docs fail,cause=" + ex.getMessage());
-//        }
-//        return result;
-//    }
+    private static String getHighlightValue(HighlightField highlightField) {
+        StringJoiner stringJoiner = new StringJoiner("");
+        Text[] fragments = highlightField.fragments();
+        for (Text text : fragments) {
+            stringJoiner.add(text.string());
+        }
+        return stringJoiner.toString();
+    }
 
 }

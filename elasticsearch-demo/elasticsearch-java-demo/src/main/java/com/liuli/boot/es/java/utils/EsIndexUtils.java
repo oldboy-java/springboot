@@ -1,5 +1,6 @@
 package com.liuli.boot.es.java.utils;
 
+import com.liuli.boot.es.java.model.es.MappingProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -14,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 public class EsIndexUtils {
@@ -34,11 +34,21 @@ public class EsIndexUtils {
      * create index
      * @param client 客户端
      * @param indexName 索引名
-     * @param properties 字段
+     * @param mappingProperty  映射字段
+     */
+    public static boolean createIndex(RestHighLevelClient client, String indexName, MappingProperty mappingProperty) {
+       return createIndex(client, indexName, mappingProperty, null, null);
+    }
+
+    /**
+     * create index
+     * @param client 客户端
+     * @param indexName 索引名
+     * @param mappingProperty 字段
      * @param aliases 别名
      * @param settings 配置
      */
-    public static boolean createIndex(RestHighLevelClient client, String indexName, Map<String, Object> properties,  Map<String, ?> aliases,  Map<String, ?> settings) {
+    public static boolean createIndex(RestHighLevelClient client, String indexName, MappingProperty mappingProperty,  Map<String, ?> aliases,  Map<String, ?> settings) {
         boolean existIndex = isExistsIndex(client, indexName);
         if (existIndex) {
             log.info("the current index exists");
@@ -46,9 +56,9 @@ public class EsIndexUtils {
         }else {
             // 构造创建索引请求，指定索引名称
             CreateIndexRequest request = new CreateIndexRequest(indexName);
-            if (!CollectionUtils.isEmpty(properties)) {
+            if (!CollectionUtils.isEmpty(mappingProperty)) {
                Map<String, Object> mapping = new HashMap<>();
-               mapping.put("properties", properties);
+               mapping.put("properties", mappingProperty);
                request.mapping(mapping);
             }
            if (!CollectionUtils.isEmpty(aliases)) {

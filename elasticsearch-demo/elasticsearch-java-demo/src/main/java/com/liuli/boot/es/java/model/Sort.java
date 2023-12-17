@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.elasticsearch.search.sort.SortOrder;
+
 
 @Builder
 @NoArgsConstructor
@@ -13,10 +15,10 @@ public class Sort {
     /**
      * 排序字段
      */
-    private String sortField;
+    private String field;
 
     /**
-     * 是否升序,默认升序
+     *  排序
      */
-    private Boolean asc;
+    private SortOrder sortOrder;
 }
